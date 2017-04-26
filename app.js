@@ -25,12 +25,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.use(express.session({ secret: 'b0nf1y4h' }))
+var session = require('express-session');
+app.use(session({
+   secret: 'b0nf1y4h'
+   , resave: false
+   , saveUninitialized: false
+}));
+
+var passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+var flash = require('connect-flash');
+app.use(flash());
 
 /// Routes
 
 var users = require('./routes/users');
 app.use('/users', users);
+
+var login = require('./routes/login');
+app.use('/login', login);
+
+// TODO: log out
 
 var admin = require('./routes/admin');
 app.use('/admin', admin);
@@ -42,7 +58,7 @@ app.use('/admin', admin);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  return next(err);
 });
 
 // error handler

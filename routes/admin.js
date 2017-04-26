@@ -2,11 +2,13 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 
-// TODO: Add login authentication first
+// First check if we are logged in, if not, redirect to /login
 router.use(function(req, res, next)
 {
-   console.log("TODO - add login");
-   next();
+   if (req.isAuthenticated())
+      return next();
+
+   res.redirect('/login');
 })
 
 
