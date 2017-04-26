@@ -1,0 +1,6 @@
+<div *ngIf="child">
+   <span class="badge">{{child.id}}</span> {{child.first_name}} {{child.last_name}}
+   <span class="badge">Date of Birth</span> {{formatDOB(child.dob)}}
+   <span class="badge">Grade</span> {{child.grade}}
+   <span class="badge">Shirt Size</span> {{child.shirt_size}}
+</div>
