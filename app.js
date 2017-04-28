@@ -46,7 +46,8 @@ app.use('/users', users);
 var login = require('./routes/login');
 app.use('/login', login);
 
-// TODO: log out
+var logout = require('./routes/logout');
+app.use('/logout', logout);
 
 var admin = require('./routes/admin');
 app.use('/admin', admin);

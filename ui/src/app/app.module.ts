@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { LogoutComponent } from './logout.component';
 import { RegistrationsComponent } from './registrations.component';
 import { ChildRowComponent } from './child-row.component';
 
@@ -14,6 +15,7 @@ import { VolunteerService } from './volunteer.service';
    // All components in the application must be declared here upfront
    declarations: [
       AppComponent
+      , LogoutComponent
       , RegistrationsComponent
       , ChildRowComponent
    ],

@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   // styleUrls: ['app.component.css'] // TODO
 })
 export class AppComponent {
-  title: string = 'MCBC VBS 2017';
+  title: string = 'MCBC VBS 2017 - Admin';
 }
