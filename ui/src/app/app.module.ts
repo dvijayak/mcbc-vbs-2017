@@ -11,13 +11,18 @@ import { ChildRowComponent } from './child-row.component';
 import { ChildService } from './child.service';
 import { VolunteerService } from './volunteer.service';
 
+import { HomeComponent } from './home/home.component';
+import { MainnavComponent } from './mainnav/mainnav.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+
 @NgModule({
    // All components in the application must be declared here upfront
    declarations: [
       AppComponent
       , LogoutComponent
       , RegistrationsComponent
-      , ChildRowComponent
+      , ChildRowComponent, HomeComponent, MainnavComponent, FooterComponent, HeaderComponent
    ],
    imports: [
       BrowserModule,
