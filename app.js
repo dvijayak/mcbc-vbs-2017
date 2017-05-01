@@ -40,17 +40,20 @@ app.use(flash());
 
 /// Routes
 
-var users = require('./routes/users');
-app.use('/users', users);
+/// TODO:
+// var login = require('./routes/login');
+// app.use('/login', login);
+// var logout = require('./routes/logout');
+// app.use('/logout', logout);
+// var admin = require('./routes/admin');
+// app.use('/admin', admin);
 
-var login = require('./routes/login');
-app.use('/login', login);
-
-var logout = require('./routes/logout');
-app.use('/logout', logout);
-
-var admin = require('./routes/admin');
-app.use('/admin', admin);
+// Serve the angular frontend
+app.use(express.static(path.join(__dirname, './ui/dist')));
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './ui/dist/index.html'));
+});
 
 
 /// Catch-alls
