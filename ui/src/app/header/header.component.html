@@ -1,3 +1,9 @@
-<p>
-  header works!
-</p>
+<mz-navbar>
+   <a routerLink="/" class="brand-logo center">VBS 2017</a>
+   <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+   <mz-navbar-item-container [align]="'right'">
+      <mz-navbar-item><a routerLink="/faq">FAQ</a></mz-navbar-item>
+      <mz-navbar-item><a routerLink="/register">Register</a></mz-navbar-item>
+      <mz-navbar-item><a routerLink="/volunteer">Volunteer</a></mz-navbar-item>
+   </mz-navbar-item-container>
+</mz-navbar>
