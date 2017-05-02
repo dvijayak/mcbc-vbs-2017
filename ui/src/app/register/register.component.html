@@ -1,3 +1,253 @@
-<p>
-  register works!
-</p>
+<div id="form-container">
+   <!-- == Child == -->
+   <!-- TODO: Multiple children -->
+   <div class="card-panel">
+      <h4 class="center-align">Child</h4>
+
+      <div class="row">
+         <!-- first name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="child-firstname"
+               [label]="'First Name'"
+               />
+         </mz-input-container>
+         <!-- last name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="child-lastname"
+               [label]="'Last Name'"
+               />
+         </mz-input-container>
+      </div>
+
+      <div class="row">
+         <!-- date of birth -->
+         <mz-input-container class="col s12 m4">
+            <input mz-input class="datepicker"
+               type="date" 
+               id="child-dob"
+               [label]="'Date of Birth'"
+               />
+         </mz-input-container>
+
+         <!-- grade -->
+         <mz-select-container class="col s12 m4">
+            <select mz-select
+               type="text" 
+               id="child-grade"
+               [placeholder]="'Grade (entering in September)'"
+               >
+               <option>JK</option>
+               <option>SK</option>
+               <option>1</option>
+               <option>2</option>
+               <option>3</option>
+               <option>4</option>
+               <option>5</option>
+            </select>
+         </mz-select-container>
+
+         <!-- shirt size -->
+         <mz-select-container class="col s12 m4">
+            <select mz-select
+               id="child-shirtsize"
+               [placeholder]="'Select your Shirt Size'"
+               >
+               <option>XS</option>
+               <option>S</option>
+               <option>M</option>
+               <option>L</option>
+               <option>XL</option>
+            </select>
+         </mz-select-container>
+      </div>
+
+      <!-- medical info -->
+      <div class="row">
+         <mz-textarea-container class="col s12">
+            <textarea mz-textarea
+               id="child-medical"
+               [label]="'Medical, special needs, allergies, and other information we need to know'"
+               length="900"
+               ></textarea> <!-- TODO - implement pipe to filter responses like None, nothing, N/A, etc. Actually...this might be too risky, let's not do it-->
+         </mz-textarea-container>
+      </div>
+
+      <div class="row">
+         <!-- may we photo? -->
+         <mz-checkbox-container class="col s12">
+            <input mz-checkbox
+               type="checkbox"
+               id="child-canphoto"
+               [label]="'May we photograph your child?'"
+               filledIn="true"
+               (change)="onChangeCanPhotoChild($event)"
+               />
+         </mz-checkbox-container>
+
+            <!-- may we use photo in publications? (hide when above is false) -->
+            <mz-checkbox-container class="col s12">
+               <input mz-checkbox
+                  type="checkbox"
+                  id="child-canusephoto"
+                  [disabled]="!canPhotoChild"
+                  [label]="'May we use these photographs in the publications of MCBC for the purpose of promotion?'"
+                  filledIn="true"
+                  />
+            </mz-checkbox-container>
+      </div>
+   </div>
+
+   <!-- == Parent/Guardian == -->
+   <div class="card-panel">
+      <h4 class="center-align">Parent/Guardian</h4>
+
+      <div class="row">
+         <!-- first name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="parent-firstname"
+               [label]="'First Name'"
+               />
+         </mz-input-container>
+         <!-- last name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="parent-lastname"
+               [label]="'Last Name'"
+               />
+         </mz-input-container>
+      </div>
+
+      <div class="row">
+         <!-- address -->
+         <mz-input-container class="col s12">
+            <input mz-input
+               type="text" 
+               id="parent-address-street"
+               [label]="'Address'"
+               />
+         </mz-input-container>
+      </div>
+      <div class="row">
+         <!-- city -->
+         <mz-input-container class="col s12 m4">
+            <input mz-input
+               type="text" 
+               id="parent-address-city"
+               [label]="'City'"
+               />
+         </mz-input-container>
+
+         <!-- province -->
+         <mz-select-container class="col s12 m4">
+            <select mz-select
+               id="parent-address-province"
+               [placeholder]="'Select your Province'"
+               >
+               <option *ngFor="let province of provinces">{{province.name}}</option>
+            </select>
+         </mz-select-container>
+
+         <!-- postal code -->
+         <mz-input-container class="col s12 m4">
+            <input mz-input
+               type="text" 
+               id="parent-address-postalcode"
+               [label]="'Postal Code'"
+               [validate]="true"
+               [dataError]="'Invalid postal code'"
+               /> <!-- TODO: write postal code validator + pipe -->
+         </mz-input-container>
+      </div>
+
+      <div class="row">
+         <!-- email -->
+         <mz-input-container class="col s12 m6">
+            <i mz-icon mz-input-prefix
+               [icon]="'email'">
+            </i>
+            <input mz-input
+               type="email" 
+               id="parent-email"
+               [label]="'Email'"
+               [validate]="true"
+               [dataError]="'Invalid email'"
+               />
+         </mz-input-container>
+
+         <!-- phone -->
+         <mz-input-container class="col s12 m6">
+            <i mz-icon mz-input-prefix
+               [icon]="'phone'">
+            </i>
+            <input mz-input
+               type="tel" 
+               id="parent-phone"
+               [label]="'Phone Number'"
+               [validate]="true"
+               [dataError]="'Invalid phone number'"
+               /> <!-- TODO: write validator + pipe -->
+         </mz-input-container>
+      </div>
+   </div>
+
+   <!-- == Emergency Contact == -->
+   <div class="card-panel">
+      <h4 class="center-align">Emergency Contact</h4>
+      
+      <div class="row">
+         <!-- first name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="emergency-firstname"
+               [label]="'First Name'"
+               />
+         </mz-input-container>
+         <!-- last name -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="emergency-lastname"
+               [label]="'Last Name'"
+               />
+         </mz-input-container>         
+      </div>
+
+      <div class="row">
+         <!-- relationship to child -->
+         <mz-input-container class="col s12 m6">
+            <input mz-input
+               type="text" 
+               id="emergency-relationship"
+               [label]="'Relationship to child'"
+               />
+         </mz-input-container>
+         <!-- phone -->
+         <mz-input-container class="col s12 m6">
+            <i mz-icon mz-input-prefix
+               [icon]="'phone'">
+            </i>
+            <input mz-input
+               type="tel" 
+               id="emergency-phone"
+               [label]="'Phone Number'"
+               [validate]="true"
+               [dataError]="'Invalid phone number'"
+               /> <!-- TODO: write validator + pipe -->
+         </mz-input-container>
+      </div>
+   </div>
+</div>
+<div id="submit-container" class="center-align">
+   <button mz-button
+      type="submit"
+      (click)="onClickSubmit()"
+      >Submit <i class="material-icons right">send</i></button>
+</div>
