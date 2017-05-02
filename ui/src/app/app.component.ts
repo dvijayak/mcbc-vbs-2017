@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   moduleId: module.id,
   selector: 'app',
   templateUrl: 'app.component.html',
-  // styleUrls: ['app.component.css'] // TODO
+  styleUrls: ['app.component.css']
 })
 export class AppComponent {
   title: string = 'MCBC VBS 2017';

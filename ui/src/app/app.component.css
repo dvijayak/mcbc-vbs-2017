@@ -1,0 +1,15 @@
+/* The numbers 56px and 64px were observed of the materialize navbar height */
+
+#body-container {
+   margin-top: 56px;
+}
+
+@media only screen and (min-width: 601px) {
+   #body-container {
+      margin-top: 64px;
+   }
+}
+
+footer {
+   width: 100%;
+}
