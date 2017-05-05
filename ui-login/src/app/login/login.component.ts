@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Http, Headers } from '@angular/http';
 
 class User {
@@ -13,7 +14,7 @@ class User {
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private location: Location) { }
 
   ngOnInit() {
   }
@@ -27,6 +28,16 @@ export class LoginComponent implements OnInit {
      headers.append('Content-Type', 'application/json');
      headers.append('Accept', 'application/json');
      this.http.post(this.loginUrl, JSON.stringify(this.model), { headers: headers } )
-        .subscribe( response => console.log(response) );
+        .subscribe( response => {
+           console.log(response);
+           if (response.ok) {
+              // this.location
+           }
+           else {
+
+           }
+        }, err => {
+           console.log(err);
+        } );
   }
 }

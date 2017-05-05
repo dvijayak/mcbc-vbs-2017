@@ -40,7 +40,7 @@ app.use(flash());
 
 /// Routes
 
-/// TODO:
+// Data analysis backend
 var login = require('./routes/login');
 app.use('/login', login);
 var logout = require('./routes/logout');
