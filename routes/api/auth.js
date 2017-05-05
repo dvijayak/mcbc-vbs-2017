@@ -1,9 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var path = require('path');
-
-// Serve the angular-based login page
-router.use(express.static(path.join(__dirname, '../ui-login/dist')));
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -33,7 +29,9 @@ passport.deserializeUser(function(username, done) {
    done(null, username);
 });
 
-router.post('/', passport.authenticate('local'));
-
-
-module.exports = router;
+var ApiHelper = require('./helper');
+router.post('/',
+   passport.authenticate('local'),
+   function (req, res) {
+      
+});

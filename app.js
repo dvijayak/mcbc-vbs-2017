@@ -47,6 +47,8 @@ var logout = require('./routes/logout');
 app.use('/logout', logout);
 var admin = require('./routes/admin');
 app.use('/admin', admin);
+var api = require('./routes/api/api.js');
+app.use('/api', api);
 
 // Serve the main angular frontend
 app.use(express.static(path.join(__dirname, './ui/dist')));
