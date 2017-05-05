@@ -18,7 +18,7 @@ app.use(logger('dev'));
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 /// Cookies and Sessions
 
@@ -41,14 +41,14 @@ app.use(flash());
 /// Routes
 
 /// TODO:
-// var login = require('./routes/login');
-// app.use('/login', login);
-// var logout = require('./routes/logout');
-// app.use('/logout', logout);
-// var admin = require('./routes/admin');
-// app.use('/admin', admin);
+var login = require('./routes/login');
+app.use('/login', login);
+var logout = require('./routes/logout');
+app.use('/logout', logout);
+var admin = require('./routes/admin');
+app.use('/admin', admin);
 
-// Serve the angular frontend
+// Serve the main angular frontend
 app.use(express.static(path.join(__dirname, './ui/dist')));
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

@@ -22,6 +22,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FaqComponent } from './faq/faq.component';
 import { RegisterComponent } from './register/register.component';
+import { ChildFormComponent } from './register/child-form/child-form.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 
 @NgModule({
@@ -30,7 +31,7 @@ import { VolunteerComponent } from './volunteer/volunteer.component';
       AppComponent
       , LogoutComponent
       , RegistrationsComponent
-      , ChildRowComponent, HomeComponent, MainnavComponent, FooterComponent, HeaderComponent, FaqComponent, RegisterComponent, VolunteerComponent
+      , ChildRowComponent, HomeComponent, MainnavComponent, FooterComponent, HeaderComponent, FaqComponent, RegisterComponent, ChildFormComponent, VolunteerComponent
    ],
    imports: [
       CommonModule,

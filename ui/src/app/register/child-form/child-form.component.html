@@ -1,0 +1,102 @@
+<h4 class="center-align">Child {{i}}</h4>
+
+<div class="row">
+   <!-- first name -->
+   <h4>TODO: {{model.first_name}}</h4>
+   <mz-input-container class="col s12 m6">
+      <input mz-input
+         type="text" 
+         id="child-{{i}}-firstname"
+         [label]="'First Name'"
+         required
+         [(ngModel)]="model.first_name"
+         name="child-{{i}}-first_name"
+         />
+   </mz-input-container>
+   <!-- last name -->
+   <mz-input-container class="col s12 m6">
+      <input mz-input
+         type="text" 
+         id="child-{{i}}-lastname"
+         [label]="'Last Name'"
+         />
+   </mz-input-container>
+</div>
+
+<div class="row">
+   <!-- date of birth -->
+   <mz-input-container class="col s12 m4">
+      <input mz-input class="datepicker"
+         type="date" 
+         id="child-{{i}}-dob"
+         [label]="'Date of Birth'"
+         [validate]="true"
+         />
+   </mz-input-container>
+
+   <!-- grade -->
+   <mz-select-container class="col s12 m4">
+      <select mz-select
+         type="text" 
+         id="child-{{i}}-grade"
+         [placeholder]="'Grade (entering in September)'"
+         >
+         <option>JK</option>
+         <option>SK</option>
+         <option>1</option>
+         <option>2</option>
+         <option>3</option>
+         <option>4</option>
+         <option>5</option>
+      </select>
+   </mz-select-container>
+
+   <!-- shirt size -->
+   <mz-select-container class="col s12 m4">
+      <select mz-select
+         id="child-{{i}}-shirtsize"
+         [placeholder]="'Select your Shirt Size'"
+         >
+         <option>XS</option>
+         <option>S</option>
+         <option>M</option>
+         <option>L</option>
+         <option>XL</option>
+      </select>
+   </mz-select-container>
+</div>
+
+<!-- medical info -->
+<div class="row">
+   <mz-textarea-container class="col s12">
+      <textarea mz-textarea
+         id="child-{{i}}-medical"
+         [label]="'Medical, special needs, allergies, and other information we need to know'"
+         length="900"
+         ></textarea>
+   </mz-textarea-container>
+</div>
+
+<div class="row">
+   <!-- may we photo? -->
+   <mz-checkbox-container class="col s12">
+      <input mz-checkbox
+         type="checkbox"
+         id="child-{{i}}-canphoto"
+         [label]="'May we photograph your child?'"
+         filledIn="true"
+         (change)="onChangeCanPhotoChild($event)"
+         />
+   </mz-checkbox-container>
+
+   <!-- may we use photo in publications? (hide when above is false) -->
+   <mz-checkbox-container class="col s12">
+      <input mz-checkbox
+         type="checkbox"
+         id="child-{{i}}-canusephoto"
+         [disabled]="!canPhotoChild"
+         [label]="'May we use these photographs in the publications of MCBC for the purpose of promotion?'"
+         filledIn="true"
+         />
+   </mz-checkbox-container>
+</div>

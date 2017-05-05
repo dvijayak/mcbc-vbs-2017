@@ -2,13 +2,8 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 
-router.get('/', function(req, res) {
-   // Present the log-in form
-   res.render('login', {
-      title: 'Login - '
-      , message: req.flash('failureFlash')
-   });
-});
+// Serve the angular-based login page
+router.use(express.static(path.join(__dirname, '../ui-login/dist')));
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;

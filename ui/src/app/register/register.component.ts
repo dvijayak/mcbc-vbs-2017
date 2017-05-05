@@ -1,34 +1,59 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { CanadianProvince, CANADIANPROVINCES } from '../helper';
+
+import { Child } from '../models/child';
+import { Submission, MAX_CHILDREN } from './submission';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  constructor(
+     private cdRef: ChangeDetectorRef
+     ) { }
 
-  ngOnInit() {
-    // We assume that jQuery is loaded in this project
-    $('.datepicker').pickadate({
-       selectMonths: true, // Creates a dropdown to control month
-       selectYears: 15 // Creates a dropdown of 15 years to control year
-    });
+  ngOnInit() {}
+
+  ngOnChanges() {
+     console.log(this.addChildBool);
   }
+
+  model: Submission = new Submission();
 
   provinces: CanadianProvince[] = CANADIANPROVINCES;
 
-  onClickSubmit (): void {
+  addChild (): void {
+     let n: number = this.model.children.length;
+     if (n < MAX_CHILDREN) {
+        // this.addChildBool = true;
+        this.model.children.push(new Child());
+        this.cdRef.detectChanges(); // does not get rid of the ExpressionChangedAfterItHasBeenCheckedError - read SO articles on change detection in angular, example: http://stackoverflow.com/questions/34868810/what-is-difference-between-production-and-development-mode-in-angular2/34868896#34868896
+     }
+     else {
+        // TODO: Provide feedback
+     }
+  }
+
+  addChildBool: boolean = false;
+
+  readonly maxChildren: number = MAX_CHILDREN;
+
+  onSubmit (): void {
     // TODO: Present review/confirmation screen
     alert("TODO: Submitted!");
   };
 
-  @Input() canPhotoChild: boolean = false;
+  canPhotoChild: boolean = false;
 
   onChangeCanPhotoChild (event): void {
     this.canPhotoChild = event.target.checked;
   }
+
+  // Controls whether the form can be submitted or not
+  isValidSubmission: boolean = false;
 }
