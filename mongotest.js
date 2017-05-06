@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // Mongoose comes with mpromises by default, but we want to use ES6 native promises
-mongoose.connect('mongodb://localhost:27018/test');
+mongoose.connect('mongodb://localhost:27018/vbs2017');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
