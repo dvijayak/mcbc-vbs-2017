@@ -18,7 +18,7 @@ app.use(logger('dev'));
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /// Cookies and Sessions
 

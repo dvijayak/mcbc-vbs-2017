@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
         .subscribe( response => {
            console.log(response);
            if (response.ok) {
-              window.location.href = response.url;
+              // window.location.href = response.url;
            }
            else {
-             alert("Failed to log in!");
+             // alert("Failed to log in!");
            }
         }, err => {
-           alert(`Failed to log in! Error: ${err}`);
+           // alert(`Failed to log in! Error: ${err}`);
            console.log(err);
         } );
   }

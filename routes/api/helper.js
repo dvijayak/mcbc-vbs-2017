@@ -1,37 +1,28 @@
 const ApiHelper = {};
 
-ApiHelper.STATUS = {
-   ok: "OK",
-   error: "ERROR", // generic error
-   missing: "NOT FOUND"
-   forbidden: "FORBIDDEN",
+ApiHelper.Status = {
+   ok: { message: "OK", code: 200},
+   error: { message: "ERROR", code: 400}, // generic error; by default, we issue a 400 Bad Request
+   missing: { message: "NOT FOUND", code: 404},
+   unauthorized: { message: "UNAUTHORIZED", code: 401},
 };
 
 // Standard function for issuing responses to API requests
 // Expected to be attached to the Express response object
-ApiHelper.respond = function (status, statusCode, data) {
+// status is expected to an object with 'message' and 'code' properties
+ApiHelper.respond = function (status, data) {
    const res = this; // assumes that we've been attached
    if (!res || // probably unnecessary?
        !status ||
-       typeof status !== 'string' ||
+       typeof status !== 'object' ||
+       (!status.message || !status.code) || 
        (data && typeof data !== 'object')
       )
       return false;
 
-   // Normalize status and status codes
-   status = status.toUpperCase();
-   statusCode = parseInt(statusCode);
-
-   if (!statusCode) {
-      if (status == ApiHelper.STATUS.ok)
-         statusCode = 200;
-      else if (status == ApiHelper.STATUS.error)
-         statusCode = 400; // by default, errors will be sent as 400 Bad Request
-      else if (status == ApiHelper.STATUS.missing)
-         statusCode = 404;
-      else if (status == ApiHelper.STATUS.forbidden)
-         statusCode = 403;
-   }
+   // Normalize status
+   const message = status.message.toUpperCase();
+   const statusCode = parseInt(status.code);
 
    // Normalize data payload
    if (!data) {
@@ -44,15 +35,23 @@ ApiHelper.respond = function (status, statusCode, data) {
       }
    }
 
-   // Now, set the response
-   res.statusCode(statusCode);
+   // Now, configure and issue the response
+   res.statusCode = statusCode;
    res.json({
       statusCode: statusCode,
-      status: status,
+      status: message,
       data: data
    });
 
    return true;
 };
 
-module.exports = ApiHelper;
+module.exports = {
+   helper: ApiHelper,
+   inject: function (req, res) {
+      // Inject helpers to the appropriate express objects
+      res.respond = ApiHelper.respond; // normalize responses to API requests
+
+      return [req, res];
+   }
+}

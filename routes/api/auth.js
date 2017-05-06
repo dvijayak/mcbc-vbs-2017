@@ -1,6 +1,3 @@
-var express = require('express');
-var router = express.Router();
-
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -30,8 +27,27 @@ passport.deserializeUser(function(username, done) {
 });
 
 var ApiHelper = require('./helper');
-router.post('/',
-   passport.authenticate('local'),
-   function (req, res) {
-      
-});
+var Status = ApiHelper.helper.Status;
+module.exports = function (req, res, next) {
+   [req, res] = ApiHelper.inject(req, res);
+
+   passport.authenticate('local', function (err, user, info) {
+      if (err) { return next(err); }
+
+      // Authentication failed if user was not set
+      if (!user) {
+         return res.respond(Status.unauthorized, {
+            redirectUrl: "/login"
+         })
+      }
+
+      // Otherwise, authentication succeeded...
+      req.logIn(user, function (err) {
+         if (err) { return next(err); }
+
+         return res.respond(Status.ok, {
+            redirectUrl: "/admin"
+         });
+      });
+   })(req, res, next);
+};
