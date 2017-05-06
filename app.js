@@ -38,6 +38,10 @@ app.use(passport.session());
 var flash = require('connect-flash');
 app.use(flash());
 
+/// Database
+
+const db = require('./db'); // should never be require'd again!
+
 /// Routes
 
 // Data analysis backend

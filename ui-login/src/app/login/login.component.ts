@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 
 class User {
    username: string;
@@ -28,17 +28,13 @@ export class LoginComponent implements OnInit {
      headers.append('Content-Type', 'application/json');
      headers.append('Accept', 'application/json');
      this.http.post(this.targetUrl, JSON.stringify(this.model), { headers: headers } )
-        .subscribe( response => {
-           console.log(response);
-           if (response.ok) {
-              // window.location.href = response.url;
-           }
-           else {
-             // alert("Failed to log in!");
-           }
+        .map( (res: Response) => res.json() )
+        .subscribe( res => {
+          console.log(res)
+          window.location.href = res.data.redirectUrl;
         }, err => {
-           // alert(`Failed to log in! Error: ${err}`);
-           console.log(err);
-        } );
+          console.log(err)
+          window.location.href = err.data.redirectUrl;
+        });
   }
 }

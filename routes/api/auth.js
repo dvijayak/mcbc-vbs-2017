@@ -1,29 +1,37 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-const ERROR = new Error('Failed to authenticate.');
+const User = require('../../models/user').model;
+const ERROR = new Error('Failed to authenticate.'); // we wish to maintain the same error message for both username and password authentication failures for security purposes
 
 passport.use(new LocalStrategy(
    function(username, password, done) {
-      if (!username || !password)
-         return done(ERROR);
+      User.findOne({username: username}, function (err, user) {
+         if (err)
+            return done(err);
 
-      // TODO: Store creds in the DB
-      const USER = 'admin';
-      const PASS = 'password';
-      if (username !== USER || password !== PASS)
-         return done(null, false, { message: 'Failed to authenticate.' });        
+         // Incorrect username
+         if (!user)
+            return done(null, false, { message: ERROR });
 
-      return done(null, username);
+         // Incorrect password
+         if (!user.validPassword(password))
+            return done(null, false, { message: ERROR });
+
+         // Authentication successful!
+         return done(null, user);
+      });
    }
 ));
 
-passport.serializeUser(function(username, done) {
-   done(null, username);
+passport.serializeUser(function(user, done) {
+   done(null, user.username);
 });
 
 passport.deserializeUser(function(username, done) {
-   done(null, username);
+   User.findByUserName(username)
+       .then(user => done(null, user))
+       .catch(err => done(err));
 });
 
 var ApiHelper = require('./helper');

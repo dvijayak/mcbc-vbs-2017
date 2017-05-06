@@ -2,7 +2,8 @@ const ApiHelper = {};
 
 ApiHelper.Status = {
    ok: { message: "OK", code: 200},
-   error: { message: "ERROR", code: 400}, // generic error; by default, we issue a 400 Bad Request
+   error: { message: "ERROR", code: 500}, // generic internal error
+   badrequest: { message: "BAD REQUEST", code: 400},
    missing: { message: "NOT FOUND", code: 404},
    unauthorized: { message: "UNAUTHORIZED", code: 401},
 };

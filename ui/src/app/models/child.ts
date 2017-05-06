@@ -16,4 +16,8 @@ export class Child {
    parent_last_name: string;
    parent_phone: string;
    parent_email: string;
+   emergency_first_name: string;
+   emergency_last_name: string;
+   emergency_relationship: string;
+   emergency_phone: string;
 }
