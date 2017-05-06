@@ -5,16 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'ng2-materialize';
-
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LogoutComponent } from './logout.component';
-import { RegistrationsComponent } from './registrations.component';
-import { ChildRowComponent } from './child-row.component';
-
-import { ChildService } from './child.service';
-import { VolunteerService } from './volunteer.service';
 
 import { HomeComponent } from './home/home.component';
 import { MainnavComponent } from './mainnav/mainnav.component';
@@ -28,10 +21,15 @@ import { VolunteerComponent } from './volunteer/volunteer.component';
 @NgModule({
    // All components in the application must be declared here upfront
    declarations: [
-      AppComponent
-      , LogoutComponent
-      , RegistrationsComponent
-      , ChildRowComponent, HomeComponent, MainnavComponent, FooterComponent, HeaderComponent, FaqComponent, RegisterComponent, ChildFormComponent, VolunteerComponent
+      AppComponent,
+      HomeComponent,
+      MainnavComponent,
+      FooterComponent,
+      HeaderComponent,
+      FaqComponent,
+      RegisterComponent,
+      ChildFormComponent,
+      VolunteerComponent
    ],
    imports: [
       CommonModule,
@@ -41,10 +39,7 @@ import { VolunteerComponent } from './volunteer/volunteer.component';
       MaterializeModule.forRoot(),
       AppRoutingModule
    ],
-   providers: [
-      ChildService
-      , VolunteerService
-   ],
+   providers: [],
    bootstrap: [AppComponent]
 })
 export class AppModule { }

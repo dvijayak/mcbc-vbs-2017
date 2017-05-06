@@ -1,5 +1,5 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../../models/user').model;
 const ERROR = new Error('Failed to authenticate.'); // we wish to maintain the same error message for both username and password authentication failures for security purposes

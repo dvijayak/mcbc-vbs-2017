@@ -10,9 +10,13 @@ db.once('open', function () {
 
    // Create the admin user
    const User = require('./models/user').model;
+   const SALT = "123vbsparty!!"; // TODO: Get this from a file, whose path is passed as an environment variable
+   const crypto = require('crypto');
+   const hash = crypto.createHash('sha512');
+   hash.update(SALT + 'password' + SALT);
    const admin = new User({
       username: 'admin',
-      password: 'password' // TODO: salty hash
+      password: hash.digest('hex')
    });
 
    // Create test children
