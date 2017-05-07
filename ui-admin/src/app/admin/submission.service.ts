@@ -6,13 +6,38 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 
+class QueryOptions {
+   query: string;
+   pretty: boolean;
+
+   constructor (options: any) {
+      // Required
+      this.query = options.query;
+
+      // Optional
+      this.pretty = options.pretty || false;
+   }
+
+   createUrl (): string {
+      let query = this.query;
+
+      // CANIMPROVE: Really brittle - will need to be changed if we add more parameters
+      if (this.pretty)
+         query += "?pretty=true";
+
+      return query;
+   }
+}
+
 @Injectable()
 export class SubmissionService {
 
    constructor (private http: Http) {}
 
    // The result must be an array of submissions
-   getSubmissions (query: string) : Promise<any> {
+   getSubmissions (options) : Promise<any> {
+      const query = new QueryOptions(options).createUrl();
+
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');

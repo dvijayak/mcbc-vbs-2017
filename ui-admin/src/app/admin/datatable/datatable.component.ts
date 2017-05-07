@@ -54,7 +54,7 @@ export class DatatableComponent implements OnInit, OnChanges {
       // 1. retrieve submissions from server, if requested
       if (fetch)
       {
-         this.submissionService.getSubmissions(this.query)
+         this.submissionService.getSubmissions({query: this.query, pretty: true})
                                .then((data) => {
                                   if (!data)
                                      return;
