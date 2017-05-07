@@ -27,17 +27,9 @@ export class Address {
    city: string;
    province: string;
    postal_code: string;
-
-   transform () {
-      // TODO
-   }
 }
 
 /// PhoneNumber class
 export class PhoneNumber {
    phone: string;
-
-   transform () {
-      // TODO
-   }
 }

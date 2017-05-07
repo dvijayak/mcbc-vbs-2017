@@ -1,27 +1,43 @@
 const mongoose = require('mongoose');
 
 const AddressSchema = require('./helper').models.Address.schema;
+const transforms = require('./helper').transforms;
 
 const ChildSchema = mongoose.Schema({
    first_name: String,
    last_name: String,
-   dob: Date,
+   dob: { type: Date, get: transforms.date },
    grade: String,
    shirt_size: String,
-   address: AddressSchema,
+   address: { type: AddressSchema, get: transforms.address },
    medical_info: String,
-   is_photo_allowed: { type: Boolean, default: false},
-   is_photo_public_use_allowed: { type: Boolean, default: false},
-   is_in_waiting_list: { type: Boolean, default: false},
+   is_photo_allowed: {
+      type: Boolean,
+      default: false,
+      get: transforms.yesNo
+   },
+   is_photo_public_use_allowed: {
+      type: Boolean,
+      default: false,
+      get: transforms.yesNo
+   },
+   is_in_waiting_list: {
+      type: Boolean,
+      default: false,
+      get: transforms.yesNo
+   },
    parent_first_name: String,
    parent_last_name: String,
-   parent_phone: String,
+   parent_phone: { type: String, get: transforms.phone },
    parent_email: String,
    emergency_first_name: String,
    emergency_last_name: String,
    emergency_relationship: String,
-   emergency_phone: String,
+   emergency_phone: { type: String, get: transforms.phone },
 });
+
+ChildSchema.set('toJSON', { getters: true }); // deal with the transformed data
+ChildSchema.set('toObject', { getters: false }); // deal with the raw original data
 
 const propertyNames = {
    first_name: "First Name",

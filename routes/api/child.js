@@ -14,7 +14,7 @@ router.put('/', function (req, res, next) {
 // Read: all
 router.get('/', function (req, res, next) {
    ChildModel.model.find()
-        .then(children => res.respond(Status.ok, { submissions: children, headers: ChildModel.propertyNames }))
+        .then(children => res.respond(Status.ok, { submissions: children.map(doc => req.query.pretty ? doc.toJSON() : doc.toObject()), headers: ChildModel.propertyNames }))
         .catch(err => next(err));
 });
 

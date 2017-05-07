@@ -112,6 +112,7 @@ db.once('open', function () {
    ];
    childrenData = childrenData.repeat(2);
    const children = childrenData.map(data => new Child(data));
+   console.error(require('./models/child').schema.path('parent_first_name'));
 
    // Create test volunteers
    // TODO:
