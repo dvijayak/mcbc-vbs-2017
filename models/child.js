@@ -23,9 +23,31 @@ const ChildSchema = mongoose.Schema({
    emergency_phone: String,
 });
 
+const propertyNames = {
+   first_name: "First Name",
+   last_name: "Last Name",
+   dob: "Date of Birth",
+   grade: "Grade",
+   shirt_size: "Shirt",
+   address: "Address",
+   medical_info: "Medical and Other Info",
+   is_photo_allowed: "Is Photo Allowed?",
+   is_photo_public_use_allowed: "Is Public Use of Photo Allowed?",
+   is_in_waiting_list: "Waiting List?",
+   parent_first_name: "Parent's First Name",
+   parent_last_name: "Parent's Last Name",
+   parent_phone: "Parent's Phone",
+   parent_email: "Parent's Email",
+   emergency_first_name: "Emergency Contact's First Name",
+   emergency_last_name: "Emergency Contact's Last Name",
+   emergency_relationship: "Emergency Contact's Relationship to Child",
+   emergency_phone: "Emergency Contact's Phone",
+}
+
 const Child = mongoose.model('Child', ChildSchema);
 
 module.exports = {
    schema: ChildSchema,
-   model: Child
+   model: Child,
+   propertyNames: propertyNames,
 };

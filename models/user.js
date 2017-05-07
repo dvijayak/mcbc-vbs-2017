@@ -11,7 +11,7 @@ const UserSchema = mongoose.Schema({
 
 UserSchema.methods.validPassword = function (password) {
    const hash = crypto.createHash('sha512');
-   hash.update(SALT + password + SALT); // TODO: come up with a more challenging seasoning
+   hash.update(SALT + password + SALT);
    return this.password === hash.digest('hex');
 }
 

@@ -1,5 +1,20 @@
 /// This file is used to create test data in the MongoDB store, for development testing
 
+// Some helpers //
+
+Array.prototype.repeat = function (n) {
+   if (typeof n !== 'number' || n < 2)
+      return this;
+
+   const result = [];
+   for (let i = 0; i < n; i++)
+      this.map(el => result.push(el));
+
+   return result;
+}
+
+//////////////////////
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // Mongoose comes with mpromises by default, but we want to use ES6 native promises
 mongoose.connect('mongodb://localhost:27018/vbs2017');
@@ -21,8 +36,8 @@ db.once('open', function () {
 
    // Create test children
    const Child = require('./models/child').model;
-   const children = [
-      new Child({
+   let childrenData = [
+      {
          first_name: "Alexandria",
          last_name: "Bennett",
          dob: new Date('2009-05-06'),
@@ -45,8 +60,8 @@ db.once('open', function () {
          emergency_last_name: "Galloway" ,
          emergency_relationship: "Uncle",
          emergency_phone: "6479801932",
-      }),
-      new Child({
+      },
+      {
          first_name: "Rose",
          last_name: "Sparks",
          dob: new Date('2007-02-28'),
@@ -69,8 +84,8 @@ db.once('open', function () {
          emergency_last_name: "Bentley" ,
          emergency_relationship: "Mother",
          emergency_phone: "6475294720",
-      }),
-      new Child({
+      },
+      {
          first_name: "Thomas",
          last_name: "Goodson",
          dob: new Date('2010-08-13'),
@@ -93,8 +108,10 @@ db.once('open', function () {
          emergency_last_name: "Pervez" ,
          emergency_relationship: "Family friend",
          emergency_phone: "4168560409",
-      }),
+      },
    ];
+   childrenData = childrenData.repeat(2);
+   const children = childrenData.map(data => new Child(data));
 
    // Create test volunteers
    // TODO:

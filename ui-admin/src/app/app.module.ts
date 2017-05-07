@@ -6,14 +6,17 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'ng2-materialize';
 import { AppRoutingModule } from './app-routing.module';
 import { NgArrayPipesModule, NgObjectPipesModule } from 'ngx-pipes';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
 import { LogoutComponent } from './logout.component';
 import { FooterComponent } from './footer/footer.component';
-import { ChildService } from '../../../ui/src/app/models/child.service';
-import { VolunteerService } from '../../../ui/src/app/models/volunteer.service';
+import { DatatableComponent } from './admin/datatable/datatable.component';
+
+import { SubmissionService } from './admin/submission.service';
+import { IntercomService } from './admin/intercom.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { VolunteerService } from '../../../ui/src/app/models/volunteer.service';
     AdminComponent,
     HeaderComponent,
     LogoutComponent,
-    FooterComponent
+    FooterComponent,
+    DatatableComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +35,9 @@ import { VolunteerService } from '../../../ui/src/app/models/volunteer.service';
     AppRoutingModule,
     NgArrayPipesModule,
     NgObjectPipesModule,
+    NgxDatatableModule
   ],
-  providers: [ChildService, VolunteerService],
+  providers: [SubmissionService, IntercomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

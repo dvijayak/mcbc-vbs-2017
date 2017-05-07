@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Child } from '../../../../ui/src/app/models/child';
-import { ChildService } from '../../../../ui/src/app/models/child.service';
-import { Volunteer } from '../../../../ui/src/app/models/volunteer';
-import { VolunteerService } from '../../../../ui/src/app/models/volunteer.service';
+import { IntercomService } from './intercom.service';
 
 @Component({
    selector: 'app-admin',
@@ -12,28 +9,14 @@ import { VolunteerService } from '../../../../ui/src/app/models/volunteer.servic
 })
 export class AdminComponent implements OnInit {
 
-   constructor(
-      private childService: ChildService,
-      private volunteerService: VolunteerService
-   ) { }
-
-   ngOnInit(): void {
-      this.getChildren();
-      this.getVolunteers();
+   constructor (private intercom: IntercomService) {
+      this.intercom.query$tream.subscribe(query => this.query = query); // no need to track subscription to unsubscribe upon component destruction - why? because we are subscribing to a *child* component, so if the parent component dies, the child will also die, thus guaranteeing no memory leak
    }
 
-   children: Child[] = [];
-   getChildren (): void {
-      this.childService.getChildren()
-          .then(children => this.children = children);
-          // .catch(err => console.error(err)); // TODO: display toast or something
-   }
+   ngOnInit (): void {}
 
-   volunteers: Volunteer[] = [];
-   getVolunteers (): void {
-      this.volunteerService.getVolunteers()
-          .then(volunteers => this.volunteers = volunteers);
-          // .catch(err => console.error(err)); // TODO: display toast or something
-   }
+   query: string = "child"; // we begin by showing the children registrations
+   displayedColumns: string[] = [];
+   filters: string[] = [];
 
 }

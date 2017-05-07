@@ -65,7 +65,7 @@
                   [(ngModel)]="model.address.province"
                   name="parent_address_province"
                   >
-                  <option *ngFor="let province of provinces">{{province.name}}</option>
+                  <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
                </select>
             </mz-select-container>
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 
 const Status = require('./helper').helper.Status;
-const Child = require('../../models/child').model;
+const ChildModel = require('../../models/child');
 
 // Create: one
 router.put('/', function (req, res, next) {
@@ -13,8 +13,8 @@ router.put('/', function (req, res, next) {
 
 // Read: all
 router.get('/', function (req, res, next) {
-   Child.find()
-        .then( children => res.respond(Status.ok, {children: children}) )
+   ChildModel.model.find()
+        .then(children => res.respond(Status.ok, { submissions: children, headers: ChildModel.propertyNames }))
         .catch(err => next(err));
 });
 

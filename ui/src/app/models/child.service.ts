@@ -13,10 +13,10 @@ export class ChildService {
 
   private getData (res: Response) {
      const data = res.json().data;
-     return (!data) ? {} : (data.children || {});
+     return (!data) ? [] : (data.children || []);
   }
 
-  getChildren () : Promise<any> {
+  getChildren () : Promise<Child[]> {
      const headers = new Headers();
      headers.append('Content-Type', 'application/json');
      headers.append('Accept', 'application/json');

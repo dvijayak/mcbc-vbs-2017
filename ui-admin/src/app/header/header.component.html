@@ -1,1 +1,27 @@
-<logout></logout>
+<mz-navbar>
+   <a href="/" class="brand-logo center"><i class="material-icons">home</i></a>
+   <mz-navbar-item-container [align]="'left'">
+      <mz-navbar-item><a href="#" class="button-collapse" [id]="'btn-sidenav-demo'"><i class="material-icons">menu</i></a></mz-navbar-item>
+      <mz-navbar-item><a class="btn waves-effect waves-light" (click)="onClickChildDataSource()">Children</a></mz-navbar-item>
+      <mz-navbar-item><a class="btn waves-effect waves-light" (click)="onClickVolunteerDataSource()">Volunteers</a></mz-navbar-item>
+   </mz-navbar-item-container>
+   <mz-navbar-item-container [align]="'right'">
+      <mz-navbar-item><a class="waves-effect" href="/logout">Logout</a></mz-navbar-item>
+   </mz-navbar-item-container>
+
+   <!-- Duplication here is ugly but whatever, roll with it for now -->
+   <mz-sidenav [id]="'sidenav-demo'" [collapseButtonId]="'btn-sidenav-demo'">
+      <mz-sidenav-link>
+         <a href="/"><i class="material-icons">home</i></a>
+      </mz-sidenav-link>
+      <mz-sidenav-link>
+         <a class="btn waves-effect waves-light" (click)="onClickChildDataSource()">Children</a>
+      </mz-sidenav-link>
+      <mz-sidenav-link>
+         <a class="btn waves-effect waves-light" (click)="onClickVolunteerDataSource()">Volunteers</a>
+      </mz-sidenav-link>
+      <mz-sidenav-link>
+         <a class="waves-effect" href="/logout">Logout</a>
+      </mz-sidenav-link>
+   </mz-sidenav>
+</mz-navbar>
