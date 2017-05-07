@@ -1,7 +1,16 @@
 <div>
    <button mz-button (click)="onClickReload()">Reload</button>
    <ngx-datatable
+      class="material fixed-header"
       [rows]="model.submissions"
       [columns]="model.headers"
+      [limit]="10"
+      [loadingIndicator]="loadingIndicator"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [columnMode]="'force'"
+      [scrollbarH]="true"
+      [sortType]="'single'"
    ></ngx-datatable>
 </div>

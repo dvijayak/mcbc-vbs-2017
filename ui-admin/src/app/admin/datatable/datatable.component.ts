@@ -24,7 +24,9 @@ export class DatatableComponent implements OnInit, OnChanges {
    @Input() filters: string[] = [];
 
    ngOnInit () {
-      this.refreshModel(true);
+      // Since ngOnChanges is guaranteed to be called before ngOnInit upon initialization
+      // as per the Angular lifecycle hooks design, we don't need to initialize the data
+      // model here, thus saving us one expensive HTTP request.
    }
 
    ngOnChanges (changes: SimpleChanges) {
@@ -55,24 +57,27 @@ export class DatatableComponent implements OnInit, OnChanges {
       if (fetch)
       {
          this.submissionService.getSubmissions({query: this.query, pretty: true})
-                               .then((data) => {
-                                  if (!data)
-                                     return;
-
-                                  this.model = new DataModel(); // the new assignment will a trigger change detection
-
-                                  this.model.submissions = data.submissions;
-
-                                  // Transform headers into ngx-datatable format
-                                  for (let prop in data.headers)
-                                     this.model.headers.push({
-                                        prop: prop,
-                                        name: data.headers[prop]
-                                     });
-                               });
+                               .then(this.updateDataModel.bind(this));
       }
 
       // 2. apply any filters
       // TODO
+   }
+
+   private updateDataModel (data) {
+      if (!data)
+         return;
+
+      // Note: change detection will be triggered 
+
+      this.model.submissions = data.submissions;
+
+      // Transform headers into ngx-datatable format
+      this.model.headers = [];
+      for (let prop in data.headers)
+         this.model.headers.push({
+         prop: prop,
+         name: data.headers[prop],
+      });
    }
 }

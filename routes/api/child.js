@@ -13,7 +13,14 @@ router.put('/', function (req, res, next) {
 
 // Read: all
 router.get('/', function (req, res, next) {
-   ChildModel.model.find()
+   const projection = {};
+   if (req.query.pretty) {
+      // Exclude the following fields when the object is to be prettified
+      projection._id = 0;
+      projection.__v = 0;
+   }
+
+   ChildModel.model.find(null, projection)
         .then(children => res.respond(Status.ok, { submissions: children.map(doc => req.query.pretty ? doc.toJSON() : doc.toObject()), headers: ChildModel.propertyNames }))
         .catch(err => next(err));
 });

@@ -36,8 +36,9 @@ const ChildSchema = mongoose.Schema({
    emergency_phone: { type: String, get: transforms.phone },
 });
 
-ChildSchema.set('toJSON', { getters: true }); // deal with the transformed data
-ChildSchema.set('toObject', { getters: false }); // deal with the raw original data
+// Default settings
+ChildSchema.set('toJSON', { getters: true, virtuals: false }); // deal with the transformed/prettified data
+ChildSchema.set('toObject', { getters: false, virtuals: false }); // deal with the raw original data
 
 const propertyNames = {
    first_name: "First Name",

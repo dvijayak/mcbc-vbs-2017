@@ -110,7 +110,7 @@ db.once('open', function () {
          emergency_phone: "4168560409",
       },
    ];
-   childrenData = childrenData.repeat(2);
+   childrenData = childrenData.repeat(20);
    const children = childrenData.map(data => new Child(data));
    console.error(require('./models/child').schema.path('parent_first_name'));
 

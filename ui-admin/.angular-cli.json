@@ -20,7 +20,10 @@
       "prefix": "app",
       "styles": [      
         "../node_modules/materialize-css/dist/css/materialize.css",
-        "../node_modules/mdi/css/materialdesignicons.css"
+        "../node_modules/mdi/css/materialdesignicons.css",
+        "../node_modules/@swimlane/ngx-datatable/release/index.css",
+        "../node_modules/@swimlane/ngx-datatable/release/themes/material.css",
+        "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",

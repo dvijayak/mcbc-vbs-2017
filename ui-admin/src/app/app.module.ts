@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'ng2-materialize';
-import { AppRoutingModule } from './app-routing.module';
 import { NgArrayPipesModule, NgObjectPipesModule } from 'ngx-pipes';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -32,7 +31,6 @@ import { IntercomService } from './admin/intercom.service';
     FormsModule,
     HttpModule,
     MaterializeModule.forRoot(),
-    AppRoutingModule,
     NgArrayPipesModule,
     NgObjectPipesModule,
     NgxDatatableModule
