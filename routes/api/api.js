@@ -6,8 +6,8 @@ const ApiHelper = require('./helper');
 const Status = ApiHelper.helper.Status;
 const respond = ApiHelper.helper.respond;
 
-// We must always be logged in prior to having access to APIs
-router.use(function(req, res, next) {
+// We must always be logged in prior to having access to read APIs
+router.get('*', function(req, res, next) {
    if (req.isAuthenticated()) {
       [req, res] = ApiHelper.inject(req, res);
       return next();

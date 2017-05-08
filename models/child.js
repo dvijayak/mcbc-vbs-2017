@@ -7,6 +7,7 @@ const ChildSchema = mongoose.Schema({
    first_name: String,
    last_name: String,
    dob: { type: Date, get: transforms.date },
+   date_of_registration: { type: Date, get: transforms.date },
    grade: String,
    shirt_size: String,
    address: { type: AddressSchema, get: transforms.address },
@@ -36,14 +37,29 @@ const ChildSchema = mongoose.Schema({
    emergency_phone: { type: String, get: transforms.phone },
 });
 
-// Default settings
+/// Virtuals
+
+ChildSchema.virtual('name').get(function () {
+   return `${this.first_name} ${this.last_name}`;
+});
+
+ChildSchema.virtual('parent_name').get(function () {
+   return `${this.parent_first_name} ${this.parent_last_name}`;
+});
+
+ChildSchema.virtual('emergency_name').get(function () {
+   return `${this.emergency_first_name} ${this.emergency_last_name}`;
+});
+
+/// Default settings
 ChildSchema.set('toJSON', { getters: true, virtuals: false }); // deal with the transformed/prettified data
 ChildSchema.set('toObject', { getters: false, virtuals: false }); // deal with the raw original data
 
 const propertyNames = {
    first_name: "First Name",
-   last_name: "Last Name",
    dob: "Date of Birth",
+   date_of_registration: "Registered On",
+   last_name: "Last Name",
    grade: "Grade",
    shirt_size: "Shirt",
    address: "Address",

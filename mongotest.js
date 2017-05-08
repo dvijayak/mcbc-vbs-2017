@@ -41,6 +41,7 @@ db.once('open', function () {
          first_name: "Alexandria",
          last_name: "Bennett",
          dob: new Date('2009-05-06'),
+         date_of_registration: new Date('2017-07-03'),
          grade: "3",
          shirt_size: "L",
          address: {
@@ -65,6 +66,7 @@ db.once('open', function () {
          first_name: "Rose",
          last_name: "Sparks",
          dob: new Date('2007-02-28'),
+         date_of_registration: new Date('2017-06-02'),
          grade: "5",
          shirt_size: "M",
          address: {
@@ -89,6 +91,7 @@ db.once('open', function () {
          first_name: "Thomas",
          last_name: "Goodson",
          dob: new Date('2010-08-13'),
+         date_of_registration: new Date('2017-05-28'),
          grade: "1",
          shirt_size: "XS",
          address: {
@@ -110,7 +113,7 @@ db.once('open', function () {
          emergency_phone: "4168560409",
       },
    ];
-   childrenData = childrenData.repeat(20);
+   // childrenData = childrenData.repeat(2);
    const children = childrenData.map(data => new Child(data));
    console.error(require('./models/child').schema.path('parent_first_name'));
 

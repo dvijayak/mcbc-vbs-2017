@@ -9,6 +9,7 @@ import 'rxjs/add/operator/filter';
 class QueryOptions {
    query: string;
    pretty: boolean;
+   data: any;
 
    constructor (options: any) {
       // Required
@@ -16,6 +17,7 @@ class QueryOptions {
 
       // Optional
       this.pretty = options.pretty || false;
+      this.data = options.data;
    }
 
    createUrl (): string {
@@ -42,7 +44,7 @@ export class SubmissionService {
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
 
-      return this.http.get(`/api/${query}`)
+      return this.http.get(`/api/${query}`, {headers: headers})
                       .map((res: Response) => res.json().data || {})
                       .toPromise()
                       .then(this.processData)
@@ -64,5 +66,19 @@ export class SubmissionService {
 
       // We are good to go!
       return Promise.resolve(data);
+   }
+
+   putSubmission (options) : Promise<any> {
+      const query = new QueryOptions(options).createUrl();
+
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      // TODO: attach API token
+
+      return this.http.put(`/api/${query}`, options.data, {headers: headers})
+                      .map((res: Response) => res.json())
+                      .toPromise()
+                      .catch(err => console.error(`Failed to put submission into the server: ${err}`));
    }
 }

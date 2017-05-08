@@ -1,5 +1,5 @@
 <div id="form-container">
-   <form [formGroup]="childForm" (ngSubmit)="onSubmit()" novalidate>
+   <form [formGroup]="childForm" novalidate>
       <!-- == Parent/Guardian == -->
       <div formGroupName="parent" class="card-panel">
          <h4 class="center-align">Parent/Guardian</h4>
@@ -167,21 +167,94 @@
       </div>
 
       <!-- == Child == -->
-      <!-- TODO: Multiple children -->
-      <!-- <div id="children-container">
-         <div class="card-panel" *ngFor="let i of model.children.keys()">
-            <child-form [i]="i+1" [model]="model.children[i]"></child-form>
+      <div formArrayName="children">
+         <div class="card-panel"
+            *ngFor="let child of childrenArray.controls; let i=index" [formGroupName]="i"
+            >
+            <h4 class="center-align">Child {{i+1}}</h4>
+
+            <div class="row">
+               <!-- first name -->
+               <mz-input-container class="col s12 m6">
+                  <input mz-input
+                     type="text"
+                     [label]="'First Name'"
+                     formControlName="first_name"
+                     />
+               </mz-input-container>
+               <!-- last name -->
+               <mz-input-container class="col s12 m6">
+                  <input mz-input
+                     type="text"
+                     [label]="'Last Name'"
+                     formControlName="last_name"
+                     />
+               </mz-input-container>
+            </div>
+
+            <div class="row">
+               <!-- date of birth -->
+               <mz-input-container class="col s12 m4">
+                  <input mz-input class="datepicker"
+                     type="date"
+                     [label]="'Date of Birth'"
+                     formControlName="dob"
+                     />
+               </mz-input-container>
+
+               <!-- grade -->
+               <mz-select-container class="col s12 m4">
+                  <select mz-select
+                     type="text"
+                     [placeholder]="'Grade (entering in September)'"
+                     formControlName="grade"
+                     >
+                     <option value="JK">JK</option>
+                     <option value="SK">SK</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                  </select>
+               </mz-select-container>
+
+               <!-- shirt size -->
+               <mz-select-container class="col s12 m4">
+                  <select mz-select
+                     id="shirtsize"
+                     formControlName="shirt_size"
+                     [placeholder]="'Select your Shirt Size'"
+                     >
+                     <option value="XS">XS</option>
+                     <option value="S">S</option>
+                     <option value="M">M</option>
+                     <option value="L">L</option>
+                     <option value="XL">XL</option>
+                  </select>
+               </mz-select-container>
+            </div>
+
+            <!-- medical info -->
+            <div class="row">
+               <mz-textarea-container class="col s12">
+                  <textarea mz-textarea
+                     [label]="'Medical, special needs, allergies, and other information we need to know'"
+                     formControlName="medical_info"
+                     length="900"
+                     ></textarea>
+               </mz-textarea-container>
+            </div>
          </div>
       </div>
-
       <span>
          <button mz-button
             (click)="addChild()">
             <i mz-icon [align]="'right'" [icon]="'person_add'"></i>
             Add Child
          </button>
-         <h6>Max: {{maxChildren}}, <b>Remaining:</b> {{maxChildren - model.children.length}}</h6>
-      </span> -->
+         <h6>Max: {{maxChildren}}</h6>
+      </span>
    </form>
 </div>
 <div id="submit-container" class="center-align">
