@@ -57,9 +57,9 @@ ChildSchema.set('toObject', { getters: false, virtuals: false }); // deal with t
 
 const propertyNames = {
    first_name: "First Name",
+   last_name: "Last Name",
    dob: "Date of Birth",
    date_of_registration: "Registered On",
-   last_name: "Last Name",
    grade: "Grade",
    shirt_size: "Shirt",
    address: "Address",

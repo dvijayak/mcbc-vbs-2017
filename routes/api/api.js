@@ -16,6 +16,17 @@ router.get('*', function(req, res, next) {
    respond.call(res, Status.unauthorized);
 });
 
+// Update methods don't need username/password authentication but must still only
+// come from a valid source using a valid API token
+router.put('*', function (req, res, next) {
+   if (true) { // TODO: authenticate against API token
+      [req, res] = ApiHelper.inject(req, res);
+      return next();
+   }
+
+   respond.call(res, Status.unauthorized);
+});
+
 // Resources
 const child = require('./child.js');
 router.use('/child', child);

@@ -28,3 +28,19 @@ export class Address {
    province: string;
    postal_code: string;
 }
+
+/// Areas of Interest for volunteers
+export const AREASOFINTEREST: string[] = [
+   "Small Group",
+   "Music",
+   "Crafts",
+   "Snacks",
+   "Sports",
+   "Big Brother/Sister",
+   "Photography/Video",
+   "Stage Creation",
+   "Registration",
+   "Audio/Video",
+   "First Aid",
+   "Security",
+];

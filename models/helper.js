@@ -20,8 +20,9 @@ module.exports = {
    },
    transforms: {
       yesNo: x => x ? "Yes" : "No",
-      date: date => date.toDateString(),
+      date: date => date ? date.toDateString() : undefined,
       phone: phone => phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
-      address: address => address.toString()
+      address: address => address.toString(),
+      splitLines: arr => arr.reduce((acc, val) => `${arr}, ${val}`)
    }
 };

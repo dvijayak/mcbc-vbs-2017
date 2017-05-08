@@ -19,6 +19,7 @@ passport.use(new LocalStrategy(
             return done(null, false, { message: ERROR });
 
          // Authentication successful!
+         user.last_login = new Date();
          return done(null, user);
       });
    }

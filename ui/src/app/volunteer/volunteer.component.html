@@ -1,3 +1,215 @@
-<p>
-  Volunteer Registration form PENDING
-</p>
+<div id="form-container">
+   <form [formGroup]="volunteerForm" novalidate>
+      <!-- == Volunteer == -->
+      <div class="card-panel">
+         <h4 class="center-align">Volunteer</h4>
+
+         <div class="row">
+            <!-- first name -->
+            <mz-input-container class="col s12 m6">
+               <input mz-input
+                  type="text" 
+                  [label]="'First Name'"
+                  formControlName="first_name"
+                  />
+            </mz-input-container>
+            <!-- last name -->
+            <mz-input-container class="col s12 m6">
+               <input mz-input
+                  type="text" 
+                  [label]="'Last Name'"
+                  formControlName="last_name"
+                  />
+            </mz-input-container>
+         </div>
+
+         <div class="row">
+            <!-- date of birth -->
+            <mz-input-container class="col s12 m4">
+               <input mz-input class="datepicker"
+                  type="date"
+                  [label]="'Date of Birth'"
+                  formControlName="dob"
+                  />
+            </mz-input-container>
+
+            <!-- police check completed -->
+            <!-- Show ONLY if age is under 18 -->
+            <mz-input-container class="col s12 m4">
+               <input mz-input class="datepicker"
+                  type="date"
+                  [label]="'Date of Police Vulnerable Sector Check Completion (leave blank if not yet complete)'"
+                  formControlName="police_check_completed"
+                  />
+            </mz-input-container>
+
+            <!-- grade -->
+            <!-- TODO: do we need, if we are using DOB? -->
+            <!-- <mz-select-container class="col s12 m4">
+               <select mz-select
+                  type="text"
+                  [placeholder]="'Grade (entering in September)'"
+                  formControlName="grade"
+                  >
+                  <option value="JK">JK</option>
+                  <option value="SK">SK</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+               </select>
+            </mz-select-container> -->
+
+            <!-- shirt size -->
+            <mz-select-container class="col s12 m4">
+               <select mz-select
+                  formControlName="shirt_size"
+                  [placeholder]="'Select your Shirt Size'"
+                  >
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+               </select>
+            </mz-select-container>
+         </div>
+
+         <div formGroupName="address">
+            <div class="row">
+               <!-- address -->
+               <mz-input-container class="col s12">
+                  <input mz-input
+                     type="text"
+                     [label]="'Address'"
+                     formControlName="street"
+                     />
+               </mz-input-container>
+            </div>
+            <div class="row">
+               <!-- city -->
+               <mz-input-container class="col s12 m4">
+                  <input mz-input
+                     type="text"
+                     [label]="'City'"
+                     formControlName="city"
+                     />
+               </mz-input-container>
+
+               <!-- province -->
+               <mz-select-container class="col s12 m4">
+                  <select mz-select
+                     [placeholder]="'Select your Province'"
+                     formControlName="province"
+                     >
+                     <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                  </select>
+               </mz-select-container>
+
+               <!-- postal code -->
+               <mz-input-container class="col s12 m4">
+                  <input mz-input
+                     type="text"
+                     [label]="'Postal Code'"
+                     formControlName="postal_code"
+                     /> <!-- TODO: write validator -->
+               </mz-input-container>
+            </div>
+         </div>
+
+         <div class="row">
+            <!-- email -->
+            <mz-input-container class="col s12 m6">
+               <i mz-icon mz-input-prefix
+                  [icon]="'email'">
+               </i>
+               <input mz-input
+                  type="email"
+                  [label]="'Email'"
+                  [validate]="true"
+                  [dataError]="'Invalid email'"
+                  formControlName="email"
+                  />
+            </mz-input-container>
+
+            <!-- phone -->
+            <mz-input-container class="col s12 m6">
+               <i mz-icon mz-input-prefix
+                  [icon]="'phone'">
+               </i>
+               <input mz-input
+                  type="tel"
+                  [label]="'Phone Number'"
+                  formControlName="phone"
+                  /> <!-- TODO: write validator -->
+            </mz-input-container>
+         </div>
+
+         <div class="row">
+            <!-- Ranked Areas of Interest -->
+            <mz-select-container class="col s12">
+               <select mz-select
+                  formControlName="ranked_aoi"
+                  [placeholder]="'What areas would you like to serve in? Choose a maximum of 3, in ranked order'"
+                  multiple
+                  >
+                  <option *ngFor="let area of aoi" [value]="area">{{area}}</option>
+               </select>
+            </mz-select-container>
+         </div>
+      </div>
+
+      <!-- == Emergency Contact == -->
+      <div formGroupName="emergency" class="card-panel">
+         <h4 class="center-align">Emergency Contact</h4>
+         
+         <div class="row">
+            <!-- first name -->
+            <mz-input-container class="col s12 m6">
+               <input mz-input
+                  type="text"
+                  [label]="'First Name'"
+                  formControlName="first_name"
+                  />
+            </mz-input-container>
+            <!-- last name -->
+            <mz-input-container class="col s12 m6">
+               <input mz-input
+                  type="text"
+                  [label]="'Last Name'"
+                  formControlName="last_name"
+                  />
+            </mz-input-container>         
+         </div>
+
+         <div class="row">
+            <!-- relationship to child -->
+            <mz-input-container class="col s12 m6">
+               <input mz-input
+                  type="text"
+                  [label]="'Relationship to volunteer'"
+                  formControlName="relationship"
+                  />
+            </mz-input-container>
+            <!-- phone -->
+            <mz-input-container class="col s12 m6">
+               <i mz-icon mz-input-prefix
+                  [icon]="'phone'">
+               </i>
+               <input mz-input
+                  type="tel"
+                  [label]="'Phone Number'"
+                  formControlName="phone"
+                  /> <!-- TODO: write validator -->
+            </mz-input-container>
+         </div>
+      </div>
+   </form>
+</div>
+<div id="submit-container" class="center-align">
+   <button mz-button
+      type="submit"
+      (click)="onSubmit()"
+      >Submit <i class="material-icons right">send</i></button>
+</div>
