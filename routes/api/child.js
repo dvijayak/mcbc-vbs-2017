@@ -9,7 +9,7 @@ const respond = ApiHelper.helper.respond;
 const ChildModel = require('../../models/child');
 const Child = ChildModel.model;
 
-const MAX_CHILDREN = 6; // TODO: Get from configuration
+const MAX_CHILDREN = 130; // TODO: Get from configuration
 
 // Update methods (PUT) don't need username/password authentication but must still only
 // come from a valid source using a valid API token
