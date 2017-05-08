@@ -23,6 +23,6 @@ module.exports = {
       date: date => date ? date.toDateString() : undefined,
       phone: phone => phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
       address: address => address.toString(),
-      splitLines: arr => arr.reduce((acc, val) => `${arr}, ${val}`)
+      splitLines: arr => arr.reduce((acc, val) => acc + ", " + val)
    }
 };

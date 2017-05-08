@@ -25,21 +25,11 @@
 
          <div class="row">
             <!-- date of birth -->
-            <mz-input-container class="col s12 m4">
-               <input mz-input class="datepicker"
+            <mz-input-container class="col s12 m6">
+               <input mz-input class="datepicker dob"
                   type="date"
                   [label]="'Date of Birth'"
                   formControlName="dob"
-                  />
-            </mz-input-container>
-
-            <!-- police check completed -->
-            <!-- Show ONLY if age is under 18 -->
-            <mz-input-container class="col s12 m4">
-               <input mz-input class="datepicker"
-                  type="date"
-                  [label]="'Date of Police Vulnerable Sector Check Completion (leave blank if not yet complete)'"
-                  formControlName="police_check_completed"
                   />
             </mz-input-container>
 
@@ -62,7 +52,7 @@
             </mz-select-container> -->
 
             <!-- shirt size -->
-            <mz-select-container class="col s12 m4">
+            <mz-select-container class="col s12 m6">
                <select mz-select
                   formControlName="shirt_size"
                   [placeholder]="'Select your Shirt Size'"
@@ -74,6 +64,19 @@
                   <option value="XL">XL</option>
                </select>
             </mz-select-container>
+         </div>
+
+         <div class="row">
+            <!-- police check completed -->
+            <!-- Show ONLY if age is under 18 -->
+            <mz-input-container class="col s12">
+               <input mz-input class="datepicker police"
+                  type="date"
+                  [label]="'Date of Police Vulnerable Sector Check Completion'"
+                  [placeholder]="'leave blank if not yet complete'"
+                  formControlName="police_check_completed"
+                  />
+            </mz-input-container>
          </div>
 
          <div formGroupName="address">
@@ -151,7 +154,8 @@
             <mz-select-container class="col s12">
                <select mz-select
                   formControlName="ranked_aoi"
-                  [placeholder]="'What areas would you like to serve in? Choose a maximum of 3, in ranked order'"
+                  [label]="'What areas would you like to serve in?'"
+                  [placeholder]="'Choose a maximum of 3 in ranked order'"
                   multiple
                   >
                   <option *ngFor="let area of aoi" [value]="area">{{area}}</option>
@@ -213,3 +217,4 @@
       (click)="onSubmit()"
       >Submit <i class="material-icons right">send</i></button>
 </div>
+<a href="data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A">CSV Octet</a>

@@ -115,17 +115,87 @@ db.once('open', function () {
    ];
    // childrenData = childrenData.repeat(2);
    const children = childrenData.map(data => new Child(data));
-   console.error(require('./models/child').schema.path('parent_first_name'));
 
    // Create test volunteers
-   // TODO:
+   const Volunteer = require('./models/volunteer').model;
+   let volunteersData = [
+      {
+         first_name: "Leinad",
+         last_name: "Delacour",
+         dob: new Date('1990-02-28'),
+         date_of_registration: new Date('2017-06-28'),
+         shirt_size: "M",
+         address: {
+            street: "1456 Court Road",
+            city: "Mississauga",
+            province: "Ontario",
+            postal_code: "L31 2B5"
+         },
+         email: "javelind@hotmail.com",
+         phone: "4160395820",
+         is_minor: false,
+         police_check_completed: new Date('2016-02-03'),
+         ranked_aoi: ["Music", "Small Group", "Audio/Video"],
+         emergency_first_name: "Michael",
+         emergency_last_name: "Olofernes" ,
+         emergency_relationship: "Cousin brother",
+         emergency_phone: "9052459293",
+      },
+      {
+         first_name: "Bogdan",
+         last_name: "Ionescu",
+         dob: new Date('1994-05-08'),
+         date_of_registration: new Date('2017-06-28'),
+         shirt_size: "L",
+         address: {
+            street: "990 Brixton Blvd",
+            city: "Oakville",
+            province: "Ontario",
+            postal_code: "F31 4VJ"
+         },
+         email: "bionescu@uoguelph.ca",
+         phone: "4160395820",
+         is_minor: false,
+         police_check_completed: new Date('2016-02-03'),
+         ranked_aoi: ["Snacks", "Stage Creation", "Security"],
+         emergency_first_name: "Dan",
+         emergency_last_name: "Oldenburg" ,
+         emergency_relationship: "Soccer Coach",
+         emergency_phone: "5192340394",
+      },
+      {
+         first_name: "Florence",
+         last_name: "Smith",
+         dob: new Date('2002-09-30'),
+         date_of_registration: new Date('2017-05-29'),
+         shirt_size: "S",
+         address: {
+            street: "12 Milwaukee Crescent",
+            city: "Mississauga",
+            province: "Ontario",
+            postal_code: "B2H 9Z3"
+         },
+         email: "florence.smith@gmail.com",
+         phone: "9058277101",
+         is_minor: true,
+         ranked_aoi: ["First Aid", "Stage Creation", "Sports"],
+         emergency_first_name: "Daniel",
+         emergency_last_name: "Smith" ,
+         emergency_relationship: "Father",
+         emergency_phone: "9058277101",
+      },
+   ];
+   // volunteersData = volunteersData.repeat(2);
+   const volunteers = volunteersData.map(data => new Volunteer(data));
 
    // Clear all existing data, save all data, and close
    User.remove()
        .then(() => Child.remove())
+       .then(() => Volunteer.remove())
        .then(() => admin.save())
        .then(user => console.log(`Saved user: ${user}`) || Child.insertMany(children))
-       .then(children => console.log(`Saved children: ${children}`) || db.close())
+       .then(children => console.log(`Saved children: ${children}`) || Volunteer.insertMany(volunteers))
+       .then(volunteers => console.log(`Saved volunteers: ${volunteers}`) || db.close())
        .then(() => console.log("Goodbye!"))
        .catch(err => console.error(err));
 });

@@ -47,16 +47,22 @@ export class VolunteerComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit () {
-    // Initialize the datepicker for the DOB control
+    // Initialize the datepicker for the date controls
     // We assume that jQuery is loaded in this project
-    $(`.datepicker`).pickadate({
+    $(`.datepicker.dob`).pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 200,
       // We need to update the form model explicitly here, as the pickadate
       // widget works a bit differently than the standard HTML5 datepicker element
       onClose: function (val) {
-        // TODO: we need to handle getting the 'this' reference to be the correct date control (discriminate between the DOB and police check completed ones)
-        // newVolunteerGroup.get('dob').setValue(this.get());
+        this.volunteerForm.get('dob').setValue(this.get());
+      }
+    });
+    $(`.datepicker.police`).pickadate({
+      selectMonths: true,
+      selectYears: 200,
+      onClose: function (val) {
+        this.volunteerForm.get('police_check_completed').setValue(this.get());
       }
     });
   }
