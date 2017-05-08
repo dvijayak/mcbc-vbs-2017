@@ -113,7 +113,7 @@ db.once('open', function () {
          emergency_phone: "4168560409",
       },
    ];
-   // childrenData = childrenData.repeat(2);
+   childrenData = childrenData.repeat(5);
    const children = childrenData.map(data => new Child(data));
 
    // Create test volunteers
@@ -185,7 +185,7 @@ db.once('open', function () {
          emergency_phone: "9058277101",
       },
    ];
-   // volunteersData = volunteersData.repeat(2);
+   volunteersData = volunteersData.repeat(10);
    const volunteers = volunteersData.map(data => new Volunteer(data));
 
    // Clear all existing data, save all data, and close

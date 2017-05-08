@@ -70,7 +70,6 @@ export class DatatableComponent implements OnInit, OnChanges {
                 
                   // 3. reflect these changes where relevant
                   this.csvDataUri = this.generateCSVDataUriFromModel();
-                  console.log(this.csvDataUri);
                   this.csvExportFilename = `MCBC_VBS_2017_SubmissionsCSVExport_${this.query}_${new Date().toDateString()}.csv`;
              });
    }
@@ -99,13 +98,14 @@ export class DatatableComponent implements OnInit, OnChanges {
       if (this.model.headers.length < 1 && this.model.submissions.length < 1)
          return "#!";
 
-      // TODO: Not correct, the order of fields is screwing up
       const commaSeparate = (acc, val) => acc + "|" + val; // can't use the comma for "comma-separating", due to the existence of commas in address
       let dataUri = "data:application/octet-stream,";
       dataUri += this.model.headers.map(header => header.name).reduce(commaSeparate);
       dataUri += "\n";
+
+      const headerProps = this.model.headers.map(header => header.prop);
       for (let submission of this.model.submissions) {
-         dataUri += objectValues(submission).reduce(commaSeparate)
+         dataUri += headerProps.map(prop => submission[prop]).reduce(commaSeparate);
          dataUri += "\n";
       }
 
