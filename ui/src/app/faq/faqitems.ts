@@ -9,7 +9,7 @@ export const FAQITEMS: FaqItem[] = [
    { header: `How will I know if I am on the Waiting List?`, body: `You will receive an email/phone call advising you of your status when you are placed on a Waiting List.  You will be notified promptly of any updates in your status.
 `},
    { header: `Will paper-based registrations still be provided?`, body: `<b>No.</b> All registrations prior to the opening day will be accepted online only. On the opening day, we will provide paper-based registrations only if there are any available spots for the respective grade.`},
-   { header: `I have a child with special needs. Can he/she still attend?`, body: `<b>Yes!</b> Please contact us TODO - put href to contact us section in footer to discuss your child's needs. We will make every effort to provide a wonderful VBS week for your child.`},
+   { header: `I have a child with special needs. Can he/she still attend?`, body: `<b>Yes!</b> Please <a href="/faq#contact">contact us</a> to discuss your child's needs. We will make every effort to provide a wonderful VBS week for your child.`},
    { header: `What snacks do you provide?`, body: `Snacks vary from day-to-day, but we offer items such as fruit, yogurt, grapes, cheese and crackers, freezies and ice cream on the last day. We serve water and/or apple juice to drink. <i>All of our preparations are made in a nut-free environment</i>.
 `},
    { header: `My child has food allergies. Do you provide special foods for children with allergies?`, body: `We are unable to provide special snacks for children with allergies. We ask that parents send in a separate snack for their child if they have concerns. Please keep in mind that snack time is usually only about 10 minutes long, so an appropriately-sized snack is requested.
