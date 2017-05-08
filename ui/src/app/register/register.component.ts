@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { CanadianProvince, CANADIANPROVINCES } from '../helper';
 
@@ -13,11 +13,37 @@ import { Submission, MAX_CHILDREN } from './submission';
 })
 export class RegisterComponent implements OnInit, OnChanges {
 
-  constructor(
-     private cdRef: ChangeDetectorRef
-     ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit() {}
+  childForm: FormGroup;
+
+  ngOnInit () {
+    // Create the form
+    this.childForm = this.formBuilder.group({
+      parent: this.formBuilder.group({
+        first_name: ['', Validators.required],
+        last_name: ['', Validators.required],
+        address: this.formBuilder.group({
+          street: ['', Validators.required],
+          city: ['', Validators.required],
+          province: ['', Validators.required],
+          postal_code: ['', Validators.required],
+        }),
+        phone: ['', Validators.required],
+        email: ['', Validators.required],
+        is_photo_allowed: ['', Validators.required], // apply the same for all children
+        is_photo_public_use_allowed: ['', Validators.required], // apply the same for all children
+      }),
+      emergency: this.formBuilder.group({
+        first_name: ['', Validators.required],
+        last_name: ['', Validators.required],
+        relationship: ['', Validators.required],
+        phone: ['', Validators.required],
+      }),
+      // children: this.formBuilder.array([]),
+    });
+  }
+
 
   ngOnChanges() {
      console.log(this.addChildBool);
@@ -32,7 +58,6 @@ export class RegisterComponent implements OnInit, OnChanges {
      if (n < MAX_CHILDREN) {
         // this.addChildBool = true;
         this.model.children.push(new Child());
-        this.cdRef.detectChanges(); // does not get rid of the ExpressionChangedAfterItHasBeenCheckedError - read SO articles on change detection in angular, example: http://stackoverflow.com/questions/34868810/what-is-difference-between-production-and-development-mode-in-angular2/34868896#34868896
      }
      else {
         // TODO: Provide feedback
@@ -45,15 +70,6 @@ export class RegisterComponent implements OnInit, OnChanges {
 
   onSubmit (): void {
     // TODO: Present review/confirmation screen
-    alert("TODO: Submitted!");
+    alert(`TODO: Submitted!\n${JSON.stringify(this.childForm.value)}`);
   };
-
-  canPhotoChild: boolean = false;
-
-  onChangeCanPhotoChild (event): void {
-    this.canPhotoChild = event.target.checked;
-  }
-
-  // Controls whether the form can be submitted or not
-  isValidSubmission: boolean = false;
 }

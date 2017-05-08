@@ -28,8 +28,3 @@ export class Address {
    province: string;
    postal_code: string;
 }
-
-/// PhoneNumber class
-export class PhoneNumber {
-   phone: string;
-}

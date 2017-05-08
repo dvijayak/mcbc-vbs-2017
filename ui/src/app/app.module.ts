@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'ng2-materialize';
@@ -15,7 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FaqComponent } from './faq/faq.component';
 import { RegisterComponent } from './register/register.component';
-import { ChildFormComponent } from './register/child-form/child-form.component';
+// import { ChildFormComponent } from './register/child-form/child-form.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 
 @NgModule({
@@ -28,13 +28,13 @@ import { VolunteerComponent } from './volunteer/volunteer.component';
       HeaderComponent,
       FaqComponent,
       RegisterComponent,
-      ChildFormComponent,
+      // ChildFormComponent,
       VolunteerComponent
    ],
    imports: [
       CommonModule,
       BrowserModule,
-      FormsModule, // import the FormsModule before binding
+      ReactiveFormsModule,
       HttpModule,
       MaterializeModule.forRoot(),
       AppRoutingModule

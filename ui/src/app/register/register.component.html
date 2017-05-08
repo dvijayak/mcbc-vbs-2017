@@ -1,8 +1,7 @@
 <div id="form-container">
-   <form #submissionForm="ngForm">
+   <form [formGroup]="childForm" (ngSubmit)="onSubmit()" novalidate>
       <!-- == Parent/Guardian == -->
-      <div class="card-panel">
-         <h4>TODO: {{model.parent_first_name}}</h4>
+      <div formGroupName="parent" class="card-panel">
          <h4 class="center-align">Parent/Guardian</h4>
 
          <div class="row">
@@ -10,78 +9,60 @@
             <mz-input-container class="col s12 m6">
                <input mz-input
                   type="text" 
-                  id="parent-firstname"
                   [label]="'First Name'"
-                  required
-                  [(ngModel)]="model.parent_first_name"
-                  name="parent_first_name"
+                  formControlName="first_name"
                   />
             </mz-input-container>
             <!-- last name -->
             <mz-input-container class="col s12 m6">
                <input mz-input
                   type="text" 
-                  id="parent-lastname"
                   [label]="'Last Name'"
-                  required
-                  [(ngModel)]="model.parent_last_name"
-                  name="parent_last_name"
+                  formControlName="last_name"
                   />
             </mz-input-container>
          </div>
 
-         <div class="row">
-            <!-- address -->
-            <mz-input-container class="col s12">
-               <input mz-input
-                  type="text" 
-                  id="parent-address-street"
-                  [label]="'Address'"
-                  required
-                  [(ngModel)]="model.address.street"
-                  name="parent_address_street"
-                  />
-            </mz-input-container>
-         </div>
-         <div class="row">
-            <!-- city -->
-            <mz-input-container class="col s12 m4">
-               <input mz-input
-                  type="text" 
-                  id="parent-address-city"
-                  [label]="'City'"
-                  required
-                  [(ngModel)]="model.address.city"
-                  name="parent_address_city"
-                  />
-            </mz-input-container>
+         <div formGroupName="address">
+            <div class="row">
+               <!-- address -->
+               <mz-input-container class="col s12">
+                  <input mz-input
+                     type="text"
+                     [label]="'Address'"
+                     formControlName="street"
+                     />
+               </mz-input-container>
+            </div>
+            <div class="row">
+               <!-- city -->
+               <mz-input-container class="col s12 m4">
+                  <input mz-input
+                     type="text"
+                     [label]="'City'"
+                     formControlName="city"
+                     />
+               </mz-input-container>
 
-            <!-- province -->
-            <mz-select-container class="col s12 m4">
-               <select mz-select
-                  id="parent-address-province"
-                  [placeholder]="'Select your Province'"
-                  required
-                  [(ngModel)]="model.address.province"
-                  name="parent_address_province"
-                  >
-                  <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
-               </select>
-            </mz-select-container>
+               <!-- province -->
+               <mz-select-container class="col s12 m4">
+                  <select mz-select
+                     [placeholder]="'Select your Province'"
+                     formControlName="province"
+                     >
+                     <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                  </select>
+               </mz-select-container>
 
-            <!-- postal code -->
-            <mz-input-container class="col s12 m4">
-               <input mz-input
-                  type="text" 
-                  id="parent-address-postalcode"
-                  [label]="'Postal Code'"
-                  [validate]="true"
-                  [dataError]="'Invalid postal code'"
-                  required
-                  [(ngModel)]="model.address.postal_code"
-                  name="parent_address_postal_code"
-                  /> <!-- TODO: write postal code validator + pipe -->
-            </mz-input-container>
+               <!-- postal code -->
+               <mz-input-container class="col s12 m4">
+                  <input mz-input
+                     type="text"
+                     [label]="'Postal Code'"
+                     formControlName="postal_code"
+                     /> <!-- TODO: write validator -->
+               </mz-input-container>
+            </div>
          </div>
 
          <div class="row">
@@ -91,14 +72,11 @@
                   [icon]="'email'">
                </i>
                <input mz-input
-                  type="email" 
-                  id="parent-email"
+                  type="email"
                   [label]="'Email'"
                   [validate]="true"
                   [dataError]="'Invalid email'"
-                  required
-                  [(ngModel)]="model.parent_email"
-                  name="parent_email"
+                  formControlName="email"
                   />
             </mz-input-container>
 
@@ -108,44 +86,59 @@
                   [icon]="'phone'">
                </i>
                <input mz-input
-                  type="tel" 
-                  id="parent-phone"
+                  type="tel"
                   [label]="'Phone Number'"
-                  [validate]="true"
-                  [dataError]="'Invalid phone number'"
-                  required
-                  [(ngModel)]="model.parent_phone"
-                  name="parent_phone"
-                  /> <!-- TODO: write validator + pipe -->
+                  formControlName="phone"
+                  /> <!-- TODO: write validator -->
             </mz-input-container>
+         </div>
+
+         <div class="row">
+            <!-- may we photo? -->
+            <!-- Materialize requires `id` to be specified for checkboxes to work -->
+            <mz-checkbox-container class="col s12">
+               <input mz-checkbox
+                  type="checkbox"
+                  id="is_photo_allowed"
+                  [label]="'May we photograph your children?'"
+                  filledIn="true"
+                  formControlName="is_photo_allowed"
+                  />
+            </mz-checkbox-container>
+
+            <!-- may we use photo in publications? (hide when above is false) -->
+            <!-- Materialize requires `id` to be specified for checkboxes to work -->
+            <mz-checkbox-container class="col s12">
+               <input mz-checkbox
+                  type="checkbox"
+                  id="is_photo_public_use_allowed"
+                  [label]="'May we use these photographs in the publications of MCBC for the purpose of promotion?'"
+                  filledIn="true"
+                  formControlName="is_photo_public_use_allowed"
+                  />
+            </mz-checkbox-container>
          </div>
       </div>
 
       <!-- == Emergency Contact == -->
-      <div class="card-panel">
+      <div formGroupName="emergency" class="card-panel">
          <h4 class="center-align">Emergency Contact</h4>
          
          <div class="row">
             <!-- first name -->
             <mz-input-container class="col s12 m6">
                <input mz-input
-                  type="text" 
-                  id="emergency-firstname"
+                  type="text"
                   [label]="'First Name'"
-                  required
-                  [(ngModel)]="model.emergency_first_name"
-                  name="emergency_first_name"
+                  formControlName="first_name"
                   />
             </mz-input-container>
             <!-- last name -->
             <mz-input-container class="col s12 m6">
                <input mz-input
-                  type="text" 
-                  id="emergency-lastname"
+                  type="text"
                   [label]="'Last Name'"
-                  required
-                  [(ngModel)]="model.emergency_last_name"
-                  name="emergency_last_name"
+                  formControlName="last_name"
                   />
             </mz-input-container>         
          </div>
@@ -154,12 +147,9 @@
             <!-- relationship to child -->
             <mz-input-container class="col s12 m6">
                <input mz-input
-                  type="text" 
-                  id="emergency-relationship"
+                  type="text"
                   [label]="'Relationship to child'"
-                  required
-                  [(ngModel)]="model.emergency_relationship"
-                  name="emergency_relationship"
+                  formControlName="relationship"
                   />
             </mz-input-container>
             <!-- phone -->
@@ -168,24 +158,18 @@
                   [icon]="'phone'">
                </i>
                <input mz-input
-                  type="tel" 
-                  id="emergency-phone"
+                  type="tel"
                   [label]="'Phone Number'"
-                  [validate]="true"
-                  [dataError]="'Invalid phone number'"
-                  required
-                  [(ngModel)]="model.emergency_phone"
-                  name="emergency_phone"
-                  /> <!-- TODO: write validator + pipe -->
+                  formControlName="phone"
+                  /> <!-- TODO: write validator -->
             </mz-input-container>
          </div>
       </div>
 
       <!-- == Child == -->
       <!-- TODO: Multiple children -->
-      <div id="children-container">
+      <!-- <div id="children-container">
          <div class="card-panel" *ngFor="let i of model.children.keys()">
-            <h4>TODO: {{model.children[i].first_name}}</h4>
             <child-form [i]="i+1" [model]="model.children[i]"></child-form>
          </div>
       </div>
@@ -197,13 +181,12 @@
             Add Child
          </button>
          <h6>Max: {{maxChildren}}, <b>Remaining:</b> {{maxChildren - model.children.length}}</h6>
-      </span>
+      </span> -->
    </form>
 </div>
 <div id="submit-container" class="center-align">
    <button mz-button
       type="submit"
       (click)="onSubmit()"
-      [disabled]="!submissionForm.form.valid"
       >Submit <i class="material-icons right">send</i></button>
 </div>

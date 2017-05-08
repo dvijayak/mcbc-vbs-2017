@@ -76,27 +76,3 @@
          ></textarea>
    </mz-textarea-container>
 </div>
-
-<div class="row">
-   <!-- may we photo? -->
-   <mz-checkbox-container class="col s12">
-      <input mz-checkbox
-         type="checkbox"
-         id="child-{{i}}-canphoto"
-         [label]="'May we photograph your child?'"
-         filledIn="true"
-         (change)="onChangeCanPhotoChild($event)"
-         />
-   </mz-checkbox-container>
-
-   <!-- may we use photo in publications? (hide when above is false) -->
-   <mz-checkbox-container class="col s12">
-      <input mz-checkbox
-         type="checkbox"
-         id="child-{{i}}-canusephoto"
-         [disabled]="!canPhotoChild"
-         [label]="'May we use these photographs in the publications of MCBC for the purpose of promotion?'"
-         filledIn="true"
-         />
-   </mz-checkbox-container>
-</div>
