@@ -33,7 +33,7 @@ export class Address {
 export const AREASOFINTEREST: string[] = [
    "Small Group",
    "Music",
-   "Crafts",
+   "Arts and Crafts",
    "Snacks",
    "Sports",
    "Big Brother/Sister",
