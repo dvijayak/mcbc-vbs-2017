@@ -10,6 +10,7 @@
                <input mz-input
                   type="text" 
                   [label]="'First Name'"
+                  [placeholder]="' '"
                   formControlName="first_name"
                   />
             </mz-input-container>
@@ -18,6 +19,7 @@
                <input mz-input
                   type="text" 
                   [label]="'Last Name'"
+                  [placeholder]="' '"
                   formControlName="last_name"
                   />
             </mz-input-container>
@@ -30,6 +32,7 @@
                   <input mz-input
                      type="text"
                      [label]="'Address'"
+                     [placeholder]="' '"
                      formControlName="street"
                      />
                </mz-input-container>
@@ -40,6 +43,7 @@
                   <input mz-input
                      type="text"
                      [label]="'City'"
+                     [placeholder]="' '"
                      formControlName="city"
                      />
                </mz-input-container>
@@ -47,7 +51,8 @@
                <!-- province -->
                <mz-select-container class="col s12 m4">
                   <select mz-select
-                     [placeholder]="'Select your Province'"
+                     [label]="'Select your Province'"
+                     [placeholder]="' '"
                      formControlName="province"
                      >
                      <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
@@ -59,6 +64,7 @@
                   <input mz-input
                      type="text"
                      [label]="'Postal Code'"
+                     [placeholder]="' '"
                      formControlName="postal_code"
                      /> <!-- TODO: write validator -->
                </mz-input-container>
@@ -74,7 +80,7 @@
                <input mz-input
                   type="email"
                   [label]="'Email'"
-                  [validate]="true"
+                  [placeholder]="' '"
                   [dataError]="'Invalid email'"
                   formControlName="email"
                   />
@@ -88,6 +94,7 @@
                <input mz-input
                   type="tel"
                   [label]="'Phone Number'"
+                  [placeholder]="' '"
                   formControlName="phone"
                   /> <!-- TODO: write validator -->
             </mz-input-container>
@@ -130,6 +137,7 @@
                <input mz-input
                   type="text"
                   [label]="'First Name'"
+                  [placeholder]="' '"
                   formControlName="first_name"
                   />
             </mz-input-container>
@@ -138,6 +146,7 @@
                <input mz-input
                   type="text"
                   [label]="'Last Name'"
+                  [placeholder]="' '"
                   formControlName="last_name"
                   />
             </mz-input-container>         
@@ -149,6 +158,7 @@
                <input mz-input
                   type="text"
                   [label]="'Relationship to child'"
+                  [placeholder]="' '"
                   formControlName="relationship"
                   />
             </mz-input-container>
@@ -160,6 +170,7 @@
                <input mz-input
                   type="tel"
                   [label]="'Phone Number'"
+                  [placeholder]="' '"
                   formControlName="phone"
                   /> <!-- TODO: write validator -->
             </mz-input-container>
@@ -179,6 +190,7 @@
                   <input mz-input
                      type="text"
                      [label]="'First Name'"
+                     [placeholder]="' '"
                      formControlName="first_name"
                      />
                </mz-input-container>
@@ -187,6 +199,7 @@
                   <input mz-input
                      type="text"
                      [label]="'Last Name'"
+                     [placeholder]="' '"
                      formControlName="last_name"
                      />
                </mz-input-container>
@@ -198,6 +211,7 @@
                   <input mz-input class="datepicker"
                      type="date"
                      [label]="'Date of Birth'"
+                     [placeholder]="' '"
                      formControlName="dob"
                      />
                </mz-input-container>
@@ -206,7 +220,8 @@
                <mz-select-container class="col s12 m4">
                   <select mz-select
                      type="text"
-                     [placeholder]="'Grade (entering in September)'"
+                     [label]="'Grade (entering in September)'"
+                     [placeholder]="' '"
                      formControlName="grade"
                      >
                      <option value="JK">JK</option>
@@ -224,7 +239,8 @@
                   <select mz-select
                      id="shirtsize"
                      formControlName="shirt_size"
-                     [placeholder]="'Select your Shirt Size'"
+                     [label]="'Select your Shirt Size'"
+                     [placeholder]="' '"
                      >
                      <option value="XS">XS</option>
                      <option value="S">S</option>
@@ -240,6 +256,7 @@
                <mz-textarea-container class="col s12">
                   <textarea mz-textarea
                      [label]="'Medical, special needs, allergies, and other information we need to know'"
+                     [placeholder]="' '"
                      formControlName="medical_info"
                      length="900"
                      ></textarea>
