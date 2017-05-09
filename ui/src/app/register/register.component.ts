@@ -1,12 +1,13 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnChanges, AfterViewInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
 
-import { CanadianProvince, CANADIANPROVINCES } from '../helper';
+import { CanadianProvince, CANADIANPROVINCES, CustomValidators } from '../helper';
 
 import { Child } from '../models/child';
-import { Submission, MAX_CHILDREN } from './submission';
+
+const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ import { Submission, MAX_CHILDREN } from './submission';
   styleUrls: ['./register.component.css'],
   providers: [SubmissionService]
 })
-export class RegisterComponent implements OnInit, OnChanges {
+export class RegisterComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder, private submissionService: SubmissionService) {}
 
@@ -30,10 +31,10 @@ export class RegisterComponent implements OnInit, OnChanges {
           street: ['', Validators.required],
           city: ['', Validators.required],
           province: ['', Validators.required],
-          postal_code: ['', Validators.required],
+          postal_code: ['', [Validators.required, CustomValidators.postal_code]],
         }),
-        phone: ['', Validators.required],
-        email: ['', Validators.required],
+        phone: ['', [Validators.required, CustomValidators.phone]],
+        email: ['', [Validators.required, Validators.email]],
         is_photo_allowed: ['true', Validators.required], // apply the same for all children
         is_photo_public_use_allowed: ['true', Validators.required], // apply the same for all children
       }),
@@ -41,11 +42,22 @@ export class RegisterComponent implements OnInit, OnChanges {
         first_name: ['', Validators.required],
         last_name: ['', Validators.required],
         relationship: ['', Validators.required],
-        phone: ['', Validators.required],
+        phone: ['', [Validators.required, CustomValidators.phone]],
       }),
       children: this.formBuilder.array([]),
     });
     this.addChild(); // keep one child form ready
+
+    // Apply validator observers for each control
+    (this.childForm.get('parent').get('email') as any).errorMessage = null;
+    // this.childForm.get('parent').get('email').valueChanges.subscribe(changes => (this.childForm.get('parent').get('email') as any).errorMessage = changes);
+  }
+
+  @ViewChild('parent_first_name') el: ElementRef;
+  ngAfterViewInit () {
+    const el = $(this.el.nativeElement);
+    console.log(el);
+    el.addClass('invalid');
   }
 
   get childrenArray (): FormArray {
@@ -53,8 +65,6 @@ export class RegisterComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {}
-
-  model: Submission = new Submission();
 
   onSubmit (): void {
     // TODO: Present review/confirmation screen

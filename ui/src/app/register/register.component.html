@@ -1,4 +1,7 @@
 <div id="form-container">
+   <div class="center-align">
+      <p class="flow-text"><i>Note: all fields in each section of this form are mandatory</i></p>
+   </div>
    <form [formGroup]="childForm" novalidate>
       <!-- == Parent/Guardian == -->
       <div formGroupName="parent" class="card-panel">
@@ -7,10 +10,12 @@
          <div class="row">
             <!-- first name -->
             <mz-input-container class="col s12 m6">
-               <input mz-input
+               <input #parent_first_name mz-input
                   type="text" 
                   [label]="'First Name'"
                   [placeholder]="' '"
+                  [validate]="true"
+                  [dataError]="'Missing required field'"
                   formControlName="first_name"
                   />
             </mz-input-container>
@@ -20,6 +25,8 @@
                   type="text" 
                   [label]="'Last Name'"
                   [placeholder]="' '"
+                  [validate]="true"
+                  [dataError]="'Missing required field'"
                   formControlName="last_name"
                   />
             </mz-input-container>
@@ -65,6 +72,8 @@
                      type="text"
                      [label]="'Postal Code'"
                      [placeholder]="' '"
+                     [validate]="true"
+                     [dataError]="'Invalid postal code'"
                      formControlName="postal_code"
                      /> <!-- TODO: write validator -->
                </mz-input-container>
@@ -81,9 +90,11 @@
                   type="email"
                   [label]="'Email'"
                   [placeholder]="' '"
-                  [dataError]="'Invalid email'"
+                  [validate]="true"
+                  [dataError]="childForm.get('parent').get('email').errorMessage"
                   formControlName="email"
                   />
+               <!-- <span class="red-text" *ngIf="childForm.get('parent').get('email').hasError('required')">Missing required field</span> -->
             </mz-input-container>
 
             <!-- phone -->
@@ -138,6 +149,8 @@
                   type="text"
                   [label]="'First Name'"
                   [placeholder]="' '"
+                  [validate]="true"
+                  [dataError]="'Missing required field'"
                   formControlName="first_name"
                   />
             </mz-input-container>
@@ -147,6 +160,8 @@
                   type="text"
                   [label]="'Last Name'"
                   [placeholder]="' '"
+                  [validate]="true"
+                  [dataError]="'Missing required field'"
                   formControlName="last_name"
                   />
             </mz-input-container>         
@@ -276,8 +291,11 @@
    </form>
 </div>
 <div id="submit-container" class="center-align">
+   <!-- TODO: *ngIf invalid -->
+   <p class="red-text" *ngIf="childForm.invalid">Your entered information is currently not valid {{childForm.get('parent').get('first_name').errorMessage}}</p>
    <button mz-button
       type="submit"
       (click)="onSubmit()"
+      [disabled]="childForm.invalid"
       >Submit <i class="material-icons right">send</i></button>
 </div>
