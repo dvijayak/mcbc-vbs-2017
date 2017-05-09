@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
@@ -13,7 +13,7 @@ import { Volunteer } from '../models/volunteer';
   styleUrls: ['./volunteer.component.css'],
   providers: [SubmissionService]
 })
-export class VolunteerComponent implements OnInit, OnChanges, AfterViewInit {
+export class VolunteerComponent implements OnInit, OnChanges {
 
   constructor(private formBuilder: FormBuilder, private submissionService: SubmissionService) {}
 
@@ -24,8 +24,6 @@ export class VolunteerComponent implements OnInit, OnChanges, AfterViewInit {
     this.volunteerForm = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      dob: ['', Validators.required],
-      // grade: ['', Validators.required], // TODO: do we need, if we are using DOB?
       shirt_size: ['', Validators.required],
       address: this.formBuilder.group({
         street: ['', Validators.required],
@@ -35,35 +33,15 @@ export class VolunteerComponent implements OnInit, OnChanges, AfterViewInit {
       }),
       phone: ['', Validators.required],
       email: ['', Validators.required],
+      is_adult: ['', Validators.required],
       police_check_completed: ['', Validators.required],
-      ranked_aoi: ['', Validators.required], // must select top 3
+      ranked_aoi: ['', Validators.required],
       emergency: this.formBuilder.group({
         first_name: ['', Validators.required],
         last_name: ['', Validators.required],
         relationship: ['', Validators.required],
         phone: ['', Validators.required],
       }),
-    });
-  }
-
-  ngAfterViewInit () {
-    // Initialize the datepicker for the date controls
-    // We assume that jQuery is loaded in this project
-    $(`.datepicker.dob`).pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 200,
-      // We need to update the form model explicitly here, as the pickadate
-      // widget works a bit differently than the standard HTML5 datepicker element
-      onClose: function (val) {
-        this.volunteerForm.get('dob').setValue(this.get());
-      }
-    });
-    $(`.datepicker.police`).pickadate({
-      selectMonths: true,
-      selectYears: 200,
-      onClose: function (val) {
-        this.volunteerForm.get('police_check_completed').setValue(this.get());
-      }
     });
   }
 

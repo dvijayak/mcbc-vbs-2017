@@ -6,22 +6,20 @@ const transforms = require('./helper').transforms;
 const VolunteerSchema = mongoose.Schema({
    first_name: String,
    last_name: String,
-   dob: { type: Date, get: transforms.date },
    date_of_registration: { type: Date, get: transforms.date },
-   // grade: String, // TODO: do we need, if we are using DOB?
    shirt_size: String,
    address: { type: AddressSchema, get: transforms.address },
    phone: { type: String, get: transforms.phone },
    email: String,
-   is_minor: {
+   is_adult: {
       type: Boolean,
       default: false,
       get: transforms.yesNo
    },
    police_check_completed: {
-      type: Date,
-      default: undefined,
-      get: transforms.date
+      type: Boolean,
+      default: false,
+      get: transforms.yesNo
    },
    ranked_aoi: { type: [String], get: transforms.splitLines },
    emergency_first_name: String,
@@ -29,19 +27,6 @@ const VolunteerSchema = mongoose.Schema({
    emergency_relationship: String,
    emergency_phone: { type: String, get: transforms.phone },
 });
-
-const eventDate = new Date('2017-08-14'); // used in minority evaluation
-const targetDate = new Date(
-   eventDate.getYear() - 18, // Anyone under the age of 18 from the first day of the
-   // event; by definition for the province of Ontario, found at http://www.cic.gc.ca/english/resources/tools/refugees/canada/processing/minors-prov.asp
-   eventDate.getMonth(),
-   eventDate.getDate());
-VolunteerSchema.methods.evaluateMinority = function () {
-   if (!this.dob)
-      return;
-
-   this.is_minor = (this.dob <= targetDate); // TODO: dates are all in UTC...this *may* not be a problem for most cases but be aware of corner cases with some volunteers
-}
 
 /// Virtuals
 
@@ -60,15 +45,13 @@ VolunteerSchema.set('toObject', { getters: false, virtuals: false }); // deal wi
 const propertyNames = {
    first_name: "First Name",
    last_name: "Last Name",
-   dob: "Date of Birth",
    date_of_registration: "Registered On",
-   // grade: "Grade", // TODO: do we need, if we are using DOB?
    shirt_size: "Shirt",
    address: "Address",
    phone: "Phone",
    email: "Email",
-   is_minor: "Minor?",
-   police_check_completed: "Police Check Completed",
+   is_adult: "Is 18 or older?",
+   police_check_completed: "Police Check Completed and Submitted?",
    ranked_aoi: "Ranked Areas of Interest",
    emergency_first_name: "Emergency Contact's First Name",
    emergency_last_name: "Emergency Contact's Last Name",

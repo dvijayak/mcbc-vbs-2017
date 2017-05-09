@@ -122,7 +122,6 @@ db.once('open', function () {
       {
          first_name: "Leinad",
          last_name: "Delacour",
-         dob: new Date('1990-02-28'),
          date_of_registration: new Date('2017-06-28'),
          shirt_size: "M",
          address: {
@@ -133,8 +132,8 @@ db.once('open', function () {
          },
          email: "javelind@hotmail.com",
          phone: "4160395820",
-         is_minor: false,
-         police_check_completed: new Date('2016-02-03'),
+         is_adult: true,
+         police_check_completed: true,
          ranked_aoi: ["Music", "Small Group", "Audio/Video"],
          emergency_first_name: "Michael",
          emergency_last_name: "Olofernes" ,
@@ -144,7 +143,6 @@ db.once('open', function () {
       {
          first_name: "Bogdan",
          last_name: "Ionescu",
-         dob: new Date('1994-05-08'),
          date_of_registration: new Date('2017-06-28'),
          shirt_size: "L",
          address: {
@@ -155,8 +153,8 @@ db.once('open', function () {
          },
          email: "bionescu@uoguelph.ca",
          phone: "4160395820",
-         is_minor: false,
-         police_check_completed: new Date('2016-02-03'),
+         is_adult: true,
+         police_check_completed: true,
          ranked_aoi: ["Snacks", "Stage Creation", "Security"],
          emergency_first_name: "Dan",
          emergency_last_name: "Oldenburg" ,
@@ -166,7 +164,6 @@ db.once('open', function () {
       {
          first_name: "Florence",
          last_name: "Smith",
-         dob: new Date('2002-09-30'),
          date_of_registration: new Date('2017-05-29'),
          shirt_size: "S",
          address: {
@@ -177,7 +174,7 @@ db.once('open', function () {
          },
          email: "florence.smith@gmail.com",
          phone: "9058277101",
-         is_minor: true,
+         is_adult: false,
          ranked_aoi: ["First Aid", "Stage Creation", "Sports"],
          emergency_first_name: "Daniel",
          emergency_last_name: "Smith" ,

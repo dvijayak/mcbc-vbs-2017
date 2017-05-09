@@ -16,7 +16,6 @@ router.put('/', function (req, res, next) {
 
    // Attach other data that did not come from the user form
    doc.date_of_registration = new Date();
-   doc.evaluateMinority();
 
    console.log(`Saving volunteer to DB:\n${doc}`);
    doc.save()

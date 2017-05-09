@@ -26,18 +26,8 @@
          </div>
 
          <div class="row">
-            <!-- date of birth -->
-            <mz-input-container class="col s12 m6">
-               <input mz-input class="datepicker dob"
-                  type="date"
-                  [label]="'Date of Birth'"
-                  [placeholder]="' '"
-                  formControlName="dob"
-                  />
-            </mz-input-container>
-
             <!-- shirt size -->
-            <mz-select-container class="col s12 m6">
+            <mz-select-container class="col s12 m4">
                <select mz-select
                   formControlName="shirt_size"
                   [label]="'Select your Shirt Size'"
@@ -50,19 +40,30 @@
                   <option value="XL">XL</option>
                </select>
             </mz-select-container>
-         </div>
 
-         <div class="row">
-            <!-- police check completed -->
-            <!-- Show ONLY if age is under 18 -->
-            <mz-input-container class="col s12">
-               <input mz-input class="datepicker police"
-                  type="date"
-                  [label]="'Date of Police Vulnerable Sector Check Completion'"
-                  [placeholder]="'leave blank if not yet complete'"
-                  formControlName="police_check_completed"
+            <!-- is 18 or over? -->
+            <mz-checkbox-container class="col s12 m4">
+               <!-- Materialize requires `id` to be specified for checkboxes to work -->
+               <input mz-checkbox
+                  type="checkbox"
+                  [label]="'Are you 18 or over?'"
+                  filledIn="true"
+                  formControlName="is_adult"
+                  id="is_adult"
                   />
-            </mz-input-container>
+            </mz-checkbox-container>
+
+            <!-- police check completed -->
+            <!-- TODO: Show ONLY if age is under 18 -->
+            <mz-checkbox-container class="col s12 m4">
+               <input mz-checkbox
+                  type="checkbox"
+                  [label]="'Completed Police Vulnerable Sector Check and submitted to MCBC?'"
+                  filledIn="true"
+                  formControlName="police_check_completed"
+                  id="police_check_completed"
+                  />
+            </mz-checkbox-container>
          </div>
 
          <div formGroupName="address">
