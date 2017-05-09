@@ -34,8 +34,8 @@ export class RegisterComponent implements OnInit, OnChanges {
         }),
         phone: ['', Validators.required],
         email: ['', Validators.required],
-        is_photo_allowed: ['', Validators.required], // apply the same for all children
-        is_photo_public_use_allowed: ['', Validators.required], // apply the same for all children
+        is_photo_allowed: ['true', Validators.required], // apply the same for all children
+        is_photo_public_use_allowed: ['true', Validators.required], // apply the same for all children
       }),
       emergency: this.formBuilder.group({
         first_name: ['', Validators.required],
