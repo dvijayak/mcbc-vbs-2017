@@ -10,9 +10,9 @@
    </mz-navbar-item-container>
 
    <!-- Duplication here is ugly but whatever, roll with it for now -->
-   <mz-sidenav [id]="'sidenav-demo'" [collapseButtonId]="'btn-sidenav-demo'">
+   <mz-sidenav [id]="'sidenav-demo'" [backgroundClass]="'grey darken-4'" [collapseButtonId]="'btn-sidenav-demo'">
       <mz-sidenav-link>
-         <a href="/" class="center-align"><i class="material-icons">home</i></a>
+         <a href="/" class="btn green mcbc white-text"><i class="material-icons white-text">home</i></a>
       </mz-sidenav-link>
       <mz-sidenav-link>
          <a class="btn waves-effect waves-light" (click)="onClickChildDataSource()">Children</a>
@@ -21,7 +21,7 @@
          <a class="btn waves-effect waves-light" (click)="onClickVolunteerDataSource()">Volunteers</a>
       </mz-sidenav-link>
       <mz-sidenav-link>
-         <a class="center-align waves-effect" href="/logout">Logout</a>
+         <a class="btn waves-effect waves-light green mcbc white-text" href="/logout">Logout</a>
       </mz-sidenav-link>
    </mz-sidenav>
 </mz-navbar>
