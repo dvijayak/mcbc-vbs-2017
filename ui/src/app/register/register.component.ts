@@ -3,7 +3,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
 
-import { CanadianProvince, CANADIANPROVINCES, CustomValidators } from '../helper';
+import { CanadianProvince, CANADIANPROVINCES, CustomValidators, FormInputPostProcessors } from '../helper';
 
 const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
 
@@ -139,7 +139,12 @@ export class RegisterComponent implements OnInit {
       for (let prop in child)
         submission[prop] = child[prop];
 
-      console.log(submission);
+      // Clean the input just before submitting
+      submission["parent_phone"] = FormInputPostProcessors.phone(submission["parent_phone"]);
+      submission["emergency_phone"] = FormInputPostProcessors.phone(submission["emergency_phone"]);
+      submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
+
+      console.log(submission); // TODO: remove for production?
       this.submissionService.putSubmission({query: "child", data: submission})
                             // .then(); TODO: notify user
                             ;

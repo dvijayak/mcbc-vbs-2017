@@ -3,7 +3,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
 
-import { CanadianProvince, CANADIANPROVINCES, AREASOFINTEREST, CustomValidators } from '../helper';
+import { CanadianProvince, CANADIANPROVINCES, AREASOFINTEREST, CustomValidators, FormInputPostProcessors } from '../helper';
 
 import { Volunteer } from '../models/volunteer';
 
@@ -81,7 +81,12 @@ export class VolunteerComponent implements OnInit, OnChanges {
       if (prop !== 'emergency')
         submission[prop] = formData[prop];
 
-    console.log(submission);
+    // Clean the input just before submitting
+    submission["phone"] = FormInputPostProcessors.phone(submission["phone"]);
+    submission["emergency_phone"] = FormInputPostProcessors.phone(submission["emergency_phone"]);
+    submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
+
+    console.log(submission); // TODO: remove before production?
     this.submissionService.putSubmission({query: "volunteer", data: submission})
                           // .then(); TODO: notify user
                           ;
