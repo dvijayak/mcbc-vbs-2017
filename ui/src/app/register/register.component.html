@@ -1,4 +1,7 @@
 <div id="form-container">
+   <div class="center-align">
+      <p class="flow-text"><i>Note: all fields in each section of this form are mandatory</i></p>
+   </div>
    <form [formGroup]="childForm" novalidate>
       <!-- == Parent/Guardian == -->
       <div formGroupName="parent" class="card-panel">
@@ -7,12 +10,13 @@
          <div class="row">
             <!-- first name -->
             <mz-input-container class="col s12 m6">
-               <input mz-input
+               <input #parent_first_name mz-input
                   type="text" 
                   [label]="'First Name'"
                   [placeholder]="' '"
                   formControlName="first_name"
                   />
+               <span class="error red-text" *ngIf="childForm.get('parent').get('first_name').hasError">{{childForm.get('parent').get('first_name').errorMessage}}</span>
             </mz-input-container>
             <!-- last name -->
             <mz-input-container class="col s12 m6">
@@ -22,12 +26,13 @@
                   [placeholder]="' '"
                   formControlName="last_name"
                   />
+               <span class="error red-text" *ngIf="childForm.get('parent').get('last_name').hasError">{{childForm.get('parent').get('last_name').errorMessage}}</span>
             </mz-input-container>
          </div>
 
          <div formGroupName="address">
             <div class="row">
-               <!-- address -->
+               <!-- street -->
                <mz-input-container class="col s12">
                   <input mz-input
                      type="text"
@@ -35,6 +40,7 @@
                      [placeholder]="' '"
                      formControlName="street"
                      />
+                  <span class="error red-text" *ngIf="childForm.get('parent').get('address').get('street').hasError">{{childForm.get('parent').get('address').get('street').errorMessage}}</span>
                </mz-input-container>
             </div>
             <div class="row">
@@ -46,18 +52,22 @@
                      [placeholder]="' '"
                      formControlName="city"
                      />
+                  <span class="error red-text" *ngIf="childForm.get('parent').get('address').get('city').hasError">{{childForm.get('parent').get('address').get('city').errorMessage}}</span>
                </mz-input-container>
 
                <!-- province -->
-               <mz-select-container class="col s12 m4">
-                  <select mz-select
-                     [label]="'Select your Province'"
-                     [placeholder]="' '"
-                     formControlName="province"
-                     >
-                     <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
-                  </select>
-               </mz-select-container>
+               <div class="col s12 m4"> <!-- this outer div is needed for select element labels to work well with the error message space span element -->
+                  <mz-select-container>
+                     <select mz-select
+                        [label]="'Select your Province'"
+                        [placeholder]="' '"
+                        formControlName="province"
+                        >
+                        <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                     </select>
+                  </mz-select-container>
+                  <span class="error red-text" *ngIf="childForm.get('parent').get('address').get('province').hasError">{{childForm.get('parent').get('address').get('province').errorMessage}}</span>
+               </div>
 
                <!-- postal code -->
                <mz-input-container class="col s12 m4">
@@ -66,7 +76,8 @@
                      [label]="'Postal Code'"
                      [placeholder]="' '"
                      formControlName="postal_code"
-                     /> <!-- TODO: write validator -->
+                     />
+                  <span class="error red-text" *ngIf="childForm.get('parent').get('address').get('postal_code').hasError">{{childForm.get('parent').get('address').get('postal_code').errorMessage}}</span>
                </mz-input-container>
             </div>
          </div>
@@ -81,9 +92,9 @@
                   type="email"
                   [label]="'Email'"
                   [placeholder]="' '"
-                  [dataError]="'Invalid email'"
                   formControlName="email"
                   />
+               <span class="error red-text" *ngIf="childForm.get('parent').get('email').hasError">{{childForm.get('parent').get('email').errorMessage}}</span>
             </mz-input-container>
 
             <!-- phone -->
@@ -96,7 +107,8 @@
                   [label]="'Phone Number'"
                   [placeholder]="' '"
                   formControlName="phone"
-                  /> <!-- TODO: write validator -->
+                  />
+               <span class="error red-text" *ngIf="childForm.get('parent').get('phone').hasError">{{childForm.get('parent').get('phone').errorMessage}}</span>
             </mz-input-container>
          </div>
 
@@ -140,6 +152,7 @@
                   [placeholder]="' '"
                   formControlName="first_name"
                   />
+               <span class="error red-text" *ngIf="childForm.get('emergency').get('first_name').hasError">{{childForm.get('emergency').get('first_name').errorMessage}}</span>
             </mz-input-container>
             <!-- last name -->
             <mz-input-container class="col s12 m6">
@@ -149,6 +162,7 @@
                   [placeholder]="' '"
                   formControlName="last_name"
                   />
+               <span class="error red-text" *ngIf="childForm.get('emergency').get('last_name').hasError">{{childForm.get('emergency').get('last_name').errorMessage}}</span>
             </mz-input-container>         
          </div>
 
@@ -161,6 +175,7 @@
                   [placeholder]="' '"
                   formControlName="relationship"
                   />
+               <span class="error red-text" *ngIf="childForm.get('emergency').get('relationship').hasError">{{childForm.get('emergency').get('relationship').errorMessage}}</span>
             </mz-input-container>
             <!-- phone -->
             <mz-input-container class="col s12 m6">
@@ -172,7 +187,8 @@
                   [label]="'Phone Number'"
                   [placeholder]="' '"
                   formControlName="phone"
-                  /> <!-- TODO: write validator -->
+                  />
+               <span class="error red-text" *ngIf="childForm.get('emergency').get('phone').hasError">{{childForm.get('emergency').get('phone').errorMessage}}</span>
             </mz-input-container>
          </div>
       </div>
@@ -193,6 +209,7 @@
                      [placeholder]="' '"
                      formControlName="first_name"
                      />
+                  <span class="error red-text" *ngIf="child.get('first_name').hasError">{{child.get('first_name').errorMessage}}</span>
                </mz-input-container>
                <!-- last name -->
                <mz-input-container class="col s12 m6">
@@ -202,6 +219,7 @@
                      [placeholder]="' '"
                      formControlName="last_name"
                      />
+                  <span class="error red-text" *ngIf="child.get('last_name').hasError">{{child.get('last_name').errorMessage}}</span>
                </mz-input-container>
             </div>
 
@@ -214,42 +232,49 @@
                      [placeholder]="' '"
                      formControlName="dob"
                      />
+                  <span class="error red-text" *ngIf="child.get('dob').hasError">{{child.get('dob').errorMessage}}</span>
                </mz-input-container>
 
                <!-- grade -->
-               <mz-select-container class="col s12 m4">
-                  <select mz-select
-                     type="text"
-                     [label]="'Grade (entering in September)'"
-                     [placeholder]="' '"
-                     formControlName="grade"
-                     >
-                     <option value="JK">JK</option>
-                     <option value="SK">SK</option>
-                     <option value="1">1</option>
-                     <option value="2">2</option>
-                     <option value="3">3</option>
-                     <option value="4">4</option>
-                     <option value="5">5</option>
-                     <option value="6">6</option>
-                  </select>
-               </mz-select-container>
+               <div class="col s12 m4"> <!-- this outer div is needed for select element labels to work well with the error message space span element -->
+                  <mz-select-container>
+                     <select mz-select
+                        type="text"
+                        [label]="'Grade (entering in September)'"
+                        [placeholder]="' '"
+                        formControlName="grade"
+                        >
+                        <option value="JK">JK</option>
+                        <option value="SK">SK</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                     </select>
+                  </mz-select-container>
+                  <span class="error red-text" *ngIf="child.get('grade').hasError">{{child.get('grade').errorMessage}}</span>
+               </div>
 
                <!-- shirt size -->
-               <mz-select-container class="col s12 m4">
-                  <select mz-select
-                     id="shirtsize"
-                     formControlName="shirt_size"
-                     [label]="'Select your Shirt Size'"
-                     [placeholder]="' '"
-                     >
-                     <option value="XS">XS</option>
-                     <option value="S">S</option>
-                     <option value="M">M</option>
-                     <option value="L">L</option>
-                     <option value="XL">XL</option>
-                  </select>
-               </mz-select-container>
+               <div class="col s12 m4"> <!-- this outer div is needed for select element labels to work well with the error message space span element -->
+                  <mz-select-container>
+                     <select mz-select
+                        id="shirtsize"
+                        formControlName="shirt_size"
+                        [label]="'Select your Shirt Size'"
+                        [placeholder]="' '"
+                        >
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                     </select>
+                  </mz-select-container>
+                  <span class="error red-text" *ngIf="child.get('shirt_size').hasError">{{child.get('shirt_size').errorMessage}}</span>
+               </div>
             </div>
 
             <!-- medical info -->
@@ -276,8 +301,11 @@
    </form>
 </div>
 <div id="submit-container" class="center-align">
+   <p class="red-text" *ngIf="childForm.invalid">Please fill in all required fields correctly</p>
+   <p class="green-text" *ngIf="!childForm.invalid">Looks good!</p>
    <button mz-button
       type="submit"
       (click)="onSubmit()"
+      [disabled]="childForm.invalid"
       >Submit <i class="material-icons right">send</i></button>
 </div>
