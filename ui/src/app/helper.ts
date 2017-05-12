@@ -47,7 +47,7 @@ export const AREASOFINTEREST: string[] = [
 
 /// Custom Validators
 
-import { AbstractControl, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, Validators, ValidationErrors } from '@angular/forms';
 
 export class CustomValidators {
    static phone (control: AbstractControl): ValidationErrors {
@@ -68,4 +68,32 @@ export class CustomValidators {
       email: "Invalid email",
       postal_code: "Invalid postal code (valid example: A1A 1A1)",
    }
+
+   /// Registers handlers to the given control(s) which will update the rendered view's
+   /// appropriate error message box with the appropriate validation error message (if
+   /// any) in response to a change in the control's value.
+   static applyControlChangesValidationHandler (abstractControl) {
+    const handler = (control) => {
+      let controlAny = control as any;
+      controlAny.errorMessage = CustomValidators.errorMessages['required']; // it would be annoying if all required fields were initialized with the 'required' error message
+      control.valueChanges.subscribe(() => {
+        const errors = control.errors;
+        if (!errors)
+          return controlAny.errorMessage = null;
+
+        for (let prop in errors)
+          return controlAny.errorMessage = CustomValidators.errorMessages[prop];
+      });
+    };
+
+    if (!abstractControl.controls) // this is a FormControl (a leaf)
+      return handler(abstractControl);
+
+    if (abstractControl.controls instanceof Array) // this is a FormArray
+      for (let el of abstractControl.controls)
+        CustomValidators.applyControlChangesValidationHandler(el);
+    else // otherwise, this is a FormGroup
+      for (let prop in abstractControl.controls)
+        CustomValidators.applyControlChangesValidationHandler(abstractControl.controls[prop]);
+  }
 }

@@ -1,11 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
 
 import { CanadianProvince, CANADIANPROVINCES, CustomValidators } from '../helper';
-
-import { Child } from '../models/child';
 
 const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
 
@@ -15,9 +13,12 @@ const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
   styleUrls: ['./register.component.css'],
   providers: [SubmissionService]
 })
-export class RegisterComponent implements OnInit, OnChanges, AfterViewInit {
+export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private submissionService: SubmissionService) {}
+
+  provinces: CanadianProvince[] = CANADIANPROVINCES;
+  readonly maxChildren: number = MAX_CHILDREN;
 
   childForm: FormGroup;
 
@@ -35,8 +36,8 @@ export class RegisterComponent implements OnInit, OnChanges, AfterViewInit {
         }),
         phone: ['', [Validators.required, CustomValidators.phone]],
         email: ['', [Validators.required, Validators.email]],
-        is_photo_allowed: ['true', Validators.required], // apply the same for all children
-        is_photo_public_use_allowed: ['true', Validators.required], // apply the same for all children
+        is_photo_allowed: [true, Validators.required], // apply the same for all children
+        is_photo_public_use_allowed: [true, Validators.required], // apply the same for all children
       }),
       emergency: this.formBuilder.group({
         first_name: ['', Validators.required],
@@ -49,22 +50,67 @@ export class RegisterComponent implements OnInit, OnChanges, AfterViewInit {
     this.addChild(); // keep one child form ready
 
     // Apply validator observers for each control
-    (this.childForm.get('parent').get('email') as any).errorMessage = null;
-    // this.childForm.get('parent').get('email').valueChanges.subscribe(changes => (this.childForm.get('parent').get('email') as any).errorMessage = changes);
-  }
+    for (let group in this.childForm.controls)
+      CustomValidators.applyControlChangesValidationHandler(this.childForm.controls[group]);
 
-  @ViewChild('parent_first_name') el: ElementRef;
-  ngAfterViewInit () {
-    const el = $(this.el.nativeElement);
-    console.log(el);
-    el.addClass('invalid');
+    // We want the photo allowed and public use checkboxes to be linked such that
+    // when the photo allowed one is unchecked, the public use one is automatically
+    // disabled; and is reenabled upon checking.
+    this.childForm.get('parent').get('is_photo_allowed').valueChanges.subscribe((value: boolean) => {
+      const linkedControl = this.childForm.get('parent').get('is_photo_public_use_allowed');
+
+      const formState = ({value: false, disabled: true});
+      if (value) {
+        formState.value = true;
+        formState.disabled = false;
+      }
+
+      linkedControl.reset(formState);
+    });
   }
 
   get childrenArray (): FormArray {
     return this.childForm.get('children') as FormArray;
   }
+  
+  addChild (): void {
+    let n: number = this.childrenArray.length;
+    if (n < MAX_CHILDREN) {
+      // Create a new child form group
+      const newChildGroup: FormGroup = this.formBuilder.group({
+              first_name: ['', Validators.required],
+              last_name: ['', Validators.required],
+              dob: ['', Validators.required],
+              grade: ['', Validators.required],
+              shirt_size: ['', Validators.required],
+              medical_info: ['', Validators.maxLength(900)],
+            });
 
-  ngOnChanges() {}
+      // Apply validator observers for each control
+      CustomValidators.applyControlChangesValidationHandler(newChildGroup);
+
+      // Add the new control to the array
+      this.childrenArray.push(newChildGroup);
+
+      // Initialize the datepicker for the DOB control
+      // We assume that jQuery is loaded in this project
+      // TODO: Still not perfect...race condition with the actual creation of the object in the DOM...
+      setTimeout(function () {
+        $(`.datepicker`).pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 30,
+          // We need to update the form model explicitly here, as the pickadate
+          // widget works a bit differently than the standard HTML5 datepicker element
+          onClose: function (val) {
+            newChildGroup.get('dob').setValue(this.get());
+          }
+        });
+      }, 450); // timeout is SUPER hacky...FIX THIS
+    }
+    else {
+      // TODO: Provide feedback
+    }
+  }
 
   onSubmit (): void {
     // TODO: Present review/confirmation screen
@@ -98,45 +144,5 @@ export class RegisterComponent implements OnInit, OnChanges, AfterViewInit {
                             // .then(); TODO: notify user
                             ;
     })
-  };
-
-  provinces: CanadianProvince[] = CANADIANPROVINCES;
-
-  readonly maxChildren: number = MAX_CHILDREN;
-  
-  addChild (): void {
-    let n: number = this.childrenArray.length;
-    if (n < MAX_CHILDREN) {
-      // Create a new child form group
-      const newChildGroup: FormGroup = this.formBuilder.group({
-              first_name: ['', Validators.required],
-              last_name: ['', Validators.required],
-              dob: ['', Validators.required],
-              grade: ['', Validators.required],
-              shirt_size: ['', Validators.required],
-              medical_info: [''],
-            });
-
-      // Add the new control to the array
-      this.childrenArray.push(newChildGroup);
-
-      // Initialize the datepicker for the DOB control
-      // We assume that jQuery is loaded in this project
-      // TODO: Still not perfect...race condition with the actual creation of the object in the DOM...
-      setTimeout(function () {
-        $(`.datepicker`).pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          selectYears: 30,
-          // We need to update the form model explicitly here, as the pickadate
-          // widget works a bit differently than the standard HTML5 datepicker element
-          onClose: function (val) {
-            newChildGroup.get('dob').setValue(this.get());
-          }
-        });
-      }, 450); // timeout is SUPER hacky...FIX THIS
-    }
-    else {
-      // TODO: Provide feedback
-    }
-  }
+  };  
 }
