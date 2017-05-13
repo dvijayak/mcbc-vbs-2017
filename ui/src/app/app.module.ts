@@ -16,6 +16,7 @@ import { FaqComponent } from './faq/faq.component';
 import { RegisterComponent } from './register/register.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
 import { ModalComponent } from './modal/modal.component';
+import { NotFoundComponent } from './404/404.component';
 
 @NgModule({
    // All components in the application must be declared here upfront
@@ -27,7 +28,8 @@ import { ModalComponent } from './modal/modal.component';
       FaqComponent,
       RegisterComponent,
       VolunteerComponent,
-      ModalComponent
+      ModalComponent,
+      NotFoundComponent
    ],
    imports: [
       CommonModule,
