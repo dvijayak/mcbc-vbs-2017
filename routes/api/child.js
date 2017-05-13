@@ -9,7 +9,9 @@ const respond = ApiHelper.helper.respond;
 const ChildModel = require('../../models/child');
 const Child = ChildModel.model;
 
-const MAX_CHILDREN = 130; // TODO: Get from configuration
+const MAX_CHILDREN = require('../../common.config').max_registrations;
+if (!MAX_CHILDREN)
+  throw new Error("The 'max_registrations' config option was not specified.");
 
 // Create: one child registration
 router.put('/', function (req, res, next) {
