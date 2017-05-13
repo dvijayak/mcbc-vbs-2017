@@ -5,6 +5,11 @@ var path = require('path');
 
 var app = express();
 
+// view engine setup
+// note: we still keep some views to fallback if angular or whatever fails
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
 // uncomment after placing your favicon in /public
 // var favicon = require('serve-favicon');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -72,6 +77,9 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // log the error
+  console.error(`Error: message: ${err.message}\nstatus: ${err.status}\nstack: ${err.stack}`);
 
   // render the error page
   res.status(err.status || 500);
