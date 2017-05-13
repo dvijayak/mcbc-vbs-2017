@@ -78,7 +78,6 @@ export class SubmissionService {
 
       return this.http.put(`/api/${query}`, options.data, {headers: headers})
                       .map((res: Response) => res.json())
-                      .toPromise()
-                      .catch(err => console.error(`Failed to put submission into the server: ${err}`));
+                      .toPromise();
    }
 }

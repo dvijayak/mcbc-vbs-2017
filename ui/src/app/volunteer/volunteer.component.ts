@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
+import { MzModalService } from 'ng2-materialize';
+import { ModalComponent } from '../modal/modal.component';
 
 import { CanadianProvince, CANADIANPROVINCES, AREASOFINTEREST, CustomValidators, FormInputPostProcessors } from '../helper';
 
@@ -15,7 +17,11 @@ import { Volunteer } from '../models/volunteer';
 })
 export class VolunteerComponent implements OnInit, OnChanges {
 
-  constructor(private formBuilder: FormBuilder, private submissionService: SubmissionService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private submissionService: SubmissionService,
+    private modalService: MzModalService
+    ) {}
 
   volunteerForm: FormGroup;
 
@@ -86,10 +92,24 @@ export class VolunteerComponent implements OnInit, OnChanges {
     submission["emergency_phone"] = FormInputPostProcessors.phone(submission["emergency_phone"]);
     submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
 
-    console.log(submission); // TODO: remove before production?
+    // Submit away!
+    const modalOptions = {
+      title: `<span class="green-text">Success!</span>`,
+      message: `Thank you, <b>${submission["first_name"] + " " + submission["last_name"]}</b>. You have successfully signed up as a crew member for VBS 2017.`
+    }; // assume success by default
     this.submissionService.putSubmission({query: "volunteer", data: submission})
-                          // .then(); TODO: notify user
-                          ;
+                          .catch(err => {
+                            console.error(`Failed to put submission into the server: ${err}`);
+
+                            modalOptions.title = `<span class="red-text">Failed :(</span>`;
+                            modalOptions.message = "We were unable to process your submission. Please try again later. Sorry for the inconvenience!";
+                          })
+                          // finally, pop up the notification modal
+                          .then(() => {
+                            const modal = this.modalService.open(ModalComponent).instance as ModalComponent;
+                            modal.title = modalOptions.title;
+                            modal.message = modalOptions.message;
+                          });
   };
 
   readonly provinces: CanadianProvince[] = CANADIANPROVINCES;

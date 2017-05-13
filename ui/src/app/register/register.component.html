@@ -292,7 +292,9 @@
       </div>
       <span>
          <button mz-button
-            (click)="addChild()">
+            (click)="addChild()"
+            [disabled]="childrenArray.controls.length >= maxChildren"
+            >
             <i mz-icon [align]="'right'" [icon]="'person_add'"></i>
             Add Child
          </button>

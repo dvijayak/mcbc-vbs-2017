@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
+import { MzModalService } from 'ng2-materialize';
+import { ModalComponent } from '../modal/modal.component';
 
 import { CanadianProvince, CANADIANPROVINCES, CustomValidators, FormInputPostProcessors } from '../helper';
 
@@ -15,7 +17,11 @@ const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private submissionService: SubmissionService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private submissionService: SubmissionService,
+    private modalService: MzModalService
+    ) {}
 
   provinces: CanadianProvince[] = CANADIANPROVINCES;
   readonly maxChildren: number = MAX_CHILDREN;
@@ -107,9 +113,6 @@ export class RegisterComponent implements OnInit {
         });
       }, 450); // timeout is SUPER hacky...FIX THIS
     }
-    else {
-      // TODO: Provide feedback
-    }
   }
 
   onSubmit (): void {
@@ -144,10 +147,24 @@ export class RegisterComponent implements OnInit {
       submission["emergency_phone"] = FormInputPostProcessors.phone(submission["emergency_phone"]);
       submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
 
-      console.log(submission); // TODO: remove for production?
+      // Submit away!
+      const modalOptions = {
+        title: `<span class="green-text">Success!</span>`,
+        message: `Thank you, <b>${submission["parent_first_name"] + " " + submission["parent_last_name"]}</b>. Your child${(formData.children.length > 1) ? 'ren have' : ' has'} been successfully registered for VBS 2017.`
+      }; // assume success by default
       this.submissionService.putSubmission({query: "child", data: submission})
-                            // .then(); TODO: notify user
-                            ;
+                            .catch(err => {
+                              console.error(`Failed to put submission into the server: ${err}`);
+
+                              modalOptions.title = `<span class="red-text">Failed :(</span>`;
+                              modalOptions.message = "We were unable to process your submission. Please try again later. Sorry for the inconvenience!";
+                            })
+                            // finally, pop up the notification modal
+                            .then(() => {
+                              const modal = this.modalService.open(ModalComponent).instance as ModalComponent;
+                              modal.title = modalOptions.title;
+                              modal.message = modalOptions.message;
+                            });
     })
   };  
 }

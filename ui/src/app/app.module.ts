@@ -10,26 +10,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HomeComponent } from './home/home.component';
-import { MainnavComponent } from './mainnav/mainnav.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { FaqComponent } from './faq/faq.component';
 import { RegisterComponent } from './register/register.component';
-// import { ChildFormComponent } from './register/child-form/child-form.component';
 import { VolunteerComponent } from './volunteer/volunteer.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
    // All components in the application must be declared here upfront
    declarations: [
       AppComponent,
       HomeComponent,
-      MainnavComponent,
       FooterComponent,
       HeaderComponent,
       FaqComponent,
       RegisterComponent,
-      // ChildFormComponent,
-      VolunteerComponent
+      VolunteerComponent,
+      ModalComponent
    ],
    imports: [
       CommonModule,
@@ -40,6 +38,7 @@ import { VolunteerComponent } from './volunteer/volunteer.component';
       AppRoutingModule
    ],
    providers: [],
-   bootstrap: [AppComponent]
+   bootstrap: [AppComponent],
+   entryComponents: [ModalComponent],
 })
 export class AppModule { }
