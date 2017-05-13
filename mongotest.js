@@ -15,9 +15,10 @@ Array.prototype.repeat = function (n) {
 
 //////////////////////
 
+const DBConfig = require(process.env.VBS2017_DBCFG);
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise; // Mongoose comes with mpromises by default, but we want to use ES6 native promises
-mongoose.connect('mongodb://localhost:27018/vbs2017');
+mongoose.connect(`mongodb://${DBConfig.url}:${DBConfig.port}/${DBConfig.db}`);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -25,13 +26,11 @@ db.once('open', function () {
 
    // Create the admin user
    const User = require('./models/user').model;
-   const SALT = "123vbsparty!!"; // TODO: Get this from a file, whose path is passed as an environment variable
    const crypto = require('crypto');
-   const hash = crypto.createHash('sha512');
-   hash.update(SALT + 'password' + SALT);
+   const security = require(process.env.VBS2017_SECURITYCFG);
    const admin = new User({
       username: 'admin',
-      password: hash.digest('hex')
+      password: security.hashPassword('password')
    });
 
    // Create test children

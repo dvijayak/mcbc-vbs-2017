@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-
-const SALT = "123vbsparty!!"; // TODO: Get this from a file, whose path is passed as an environment variable
 const crypto = require('crypto');
+
+const security = require(process.env.VBS2017_SECURITYCFG);
 
 const UserSchema = mongoose.Schema({
    username: String,
@@ -10,9 +10,7 @@ const UserSchema = mongoose.Schema({
 });
 
 UserSchema.methods.validPassword = function (password) {
-   const hash = crypto.createHash('sha512');
-   hash.update(SALT + password + SALT);
-   return this.password === hash.digest('hex');
+   return this.password === security.hashPassword(password);
 }
 
 UserSchema.statics.findByUserName = function (username) {

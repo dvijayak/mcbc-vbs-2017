@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const AddressSchema = require('./helper').models.Address.schema;
 const transforms = require('./helper').transforms;
 
-// TODO: Add age property (virtual?) which is calculated via dob?
-
 const ChildSchema = mongoose.Schema({
    first_name: String,
    last_name: String,
