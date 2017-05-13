@@ -77,7 +77,7 @@ export class SubmissionService {
       // TODO: attach API token
 
       return this.http.put(`/api/${query}`, options.data, {headers: headers})
-                      .map((res: Response) => res.json())
+                      .map((res: Response) => res.json().data || {})
                       .toPromise();
    }
 }

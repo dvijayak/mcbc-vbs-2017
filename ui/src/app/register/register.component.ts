@@ -153,6 +153,16 @@ export class RegisterComponent implements OnInit {
         message: `Thank you, <b>${submission["parent_first_name"] + " " + submission["parent_last_name"]}</b>. Your child${(formData.children.length > 1) ? 'ren have' : ' has'} been successfully registered for VBS 2017.`
       }; // assume success by default
       this.submissionService.putSubmission({query: "child", data: submission})
+                            .then((data) => {
+                              if (data.is_in_waiting_list && 
+                                (data.is_in_waiting_list.toString().toLowerCase() == "yes" ||
+                                data.is_in_waiting_list.toString().toLowerCase() == "true")
+                                ) {
+                                modalOptions.title = `<span class="orange-text">We're full...</span>`;
+                                modalOptions.message = `But do not despair - your child${(formData.children.length > 1) ? 'ren' : ''} will be registered on our waiting list. We will promptly contact you if more room is made available.`;
+                                return Promise.resolve();
+                              }
+                            })
                             .catch(err => {
                               console.error(`Failed to put submission into the server: ${err}`);
 
