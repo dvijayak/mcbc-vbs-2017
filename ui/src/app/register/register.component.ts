@@ -80,39 +80,46 @@ export class RegisterComponent implements OnInit {
   }
   
   addChild (): void {
-    let n: number = this.childrenArray.length;
-    if (n < MAX_CHILDREN) {
-      // Create a new child form group
-      const newChildGroup: FormGroup = this.formBuilder.group({
-              first_name: ['', Validators.required],
-              last_name: ['', Validators.required],
-              dob: ['', Validators.required],
-              grade: ['', Validators.required],
-              shirt_size: ['', Validators.required],
-              medical_info: ['', Validators.maxLength(900)],
-            });
+    if (this.childrenArray.length >= MAX_CHILDREN)
+      return;
 
-      // Apply validator observers for each control
-      CustomValidators.applyControlChangesValidationHandler(newChildGroup);
+    // Create a new child form group
+    const newChildGroup: FormGroup = this.formBuilder.group({
+            first_name: ['', Validators.required],
+            last_name: ['', Validators.required],
+            dob: ['', Validators.required],
+            grade: ['', Validators.required],
+            shirt_size: ['', Validators.required],
+            medical_info: ['', Validators.maxLength(900)],
+          });
 
-      // Add the new control to the array
-      this.childrenArray.push(newChildGroup);
+    // Apply validator observers for each control
+    CustomValidators.applyControlChangesValidationHandler(newChildGroup);
 
-      // Initialize the datepicker for the DOB control
-      // We assume that jQuery is loaded in this project
-      // CANIMPROVE: Still not perfect...race condition with the actual creation of the object in the DOM...
-      setTimeout(function () {
-        $(`.datepicker`).pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          selectYears: 30,
-          // We need to update the form model explicitly here, as the pickadate
-          // widget works a bit differently than the standard HTML5 datepicker element
-          onClose: function (val) {
-            newChildGroup.get('dob').setValue(this.get());
-          }
-        });
-      }, 450); // timeout is SUPER hacky...FIX THIS
-    }
+    // Add the new control to the array
+    this.childrenArray.push(newChildGroup);
+
+    // Initialize the datepicker for the DOB control
+    // We assume that jQuery is loaded in this project
+    // CANIMPROVE: Still not perfect...race condition with the actual creation of the object in the DOM...
+    setTimeout(function () {
+      $(`.datepicker`).pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 30,
+        // We need to update the form model explicitly here, as the pickadate
+        // widget works a bit differently than the standard HTML5 datepicker element
+        onClose: function (val) {
+          newChildGroup.get('dob').setValue(this.get());
+        }
+      });
+    }, 450); // timeout is SUPER hacky...FIX THIS
+  }
+
+  deleteChild (index: number): void {
+    if (this.childrenArray.length <= 1)
+      return;
+
+    this.childrenArray.removeAt(index);
   }
 
   onSubmit (): void {

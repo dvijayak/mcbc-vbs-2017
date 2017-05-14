@@ -289,10 +289,23 @@
                      ></textarea>
                </mz-textarea-container>
             </div>
+
+            <!-- remove child -->
+            <div class="row">
+               <div class="col s12">
+                  <button class="btn red waves-effect waves-light right"
+                     (click)="deleteChild(i)"
+                     [disabled]="childrenArray.controls.length <= 1"
+                     >
+                     <i mz-icon [align]="'right'" [icon]="'delete'"></i>
+                     Remove Child
+                  </button>
+               </div>
+            </div>
          </div>
       </div>
       <span>
-         <button mz-button
+         <button class="btn green waves-effect waves-light"
             (click)="addChild()"
             [disabled]="childrenArray.controls.length >= maxChildren"
             >
