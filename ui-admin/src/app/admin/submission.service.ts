@@ -74,7 +74,7 @@ export class SubmissionService {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
-      // TODO: attach API token
+      // CANIMPROVE: attach API token
 
       return this.http.put(`/api/${query}`, options.data, {headers: headers})
                       .map((res: Response) => res.json().data || {})

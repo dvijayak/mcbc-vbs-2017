@@ -7,8 +7,6 @@ import { ModalComponent } from '../modal/modal.component';
 
 import { CanadianProvince, CANADIANPROVINCES, AREASOFINTEREST, CustomValidators, FormInputPostProcessors } from '../helper';
 
-import { Volunteer } from '../models/volunteer';
-
 @Component({
   selector: 'app-volunteer',
   templateUrl: './volunteer.component.html',
@@ -72,8 +70,6 @@ export class VolunteerComponent implements OnInit, OnChanges {
   ngOnChanges() {}
 
   onSubmit (): void {
-    // TODO: Present review/confirmation screen
-
     // Construct submission and send over to the server to be stored in the DB
     const formData = this.volunteerForm.value;
     const submission = {};

@@ -10,7 +10,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { HeaderComponent } from './header/header.component';
-import { LogoutComponent } from './logout.component';
 import { FooterComponent } from './footer/footer.component';
 import { DatatableComponent } from './admin/datatable/datatable.component';
 
@@ -22,7 +21,6 @@ import { IntercomService } from './admin/intercom.service';
     AppComponent,
     AdminComponent,
     HeaderComponent,
-    LogoutComponent,
     FooterComponent,
     DatatableComponent
   ],

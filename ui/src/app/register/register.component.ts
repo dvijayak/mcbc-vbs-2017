@@ -7,7 +7,7 @@ import { ModalComponent } from '../modal/modal.component';
 
 import { CanadianProvince, CANADIANPROVINCES, CustomValidators, FormInputPostProcessors } from '../helper';
 
-const MAX_CHILDREN = 5; // TODO: get this from some configuration var?
+const MAX_CHILDREN = 5; // CANIMPROVE: get this from some configuration var?
 
 @Component({
   selector: 'app-register',
@@ -100,7 +100,7 @@ export class RegisterComponent implements OnInit {
 
       // Initialize the datepicker for the DOB control
       // We assume that jQuery is loaded in this project
-      // TODO: Still not perfect...race condition with the actual creation of the object in the DOM...
+      // CANIMPROVE: Still not perfect...race condition with the actual creation of the object in the DOM...
       setTimeout(function () {
         $(`.datepicker`).pickadate({
           selectMonths: true, // Creates a dropdown to control month
@@ -116,8 +116,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit (): void {
-    // TODO: Present review/confirmation screen
-
     // Construct submissions based on the number of children in the form model, then
     // send over to the server to be stored in the DB
     const formData = this.childForm.value;
