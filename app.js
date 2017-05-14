@@ -5,6 +5,10 @@ var path = require('path');
 
 var app = express();
 
+/// Development/Production
+
+app.set('env', process.env.NODE_ENV || 'development');
+
 // view engine setup
 // note: we still keep some views to fallback if angular or whatever fails
 app.set('views', path.join(__dirname, 'views'));
@@ -27,10 +31,15 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 var session = require('express-session');
+app.set('trust proxy', 1); // trust first proxy
 app.use(session({
    secret: 'b0nf1y4h'
    , resave: false
    , saveUninitialized: false
+   , cookie: {
+      secure: app.get('env') === 'production',
+      maxAge: 1 * 60 * 60 * 1000
+   }
 }));
 
 var passport = require('passport');
@@ -38,6 +47,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 var flash = require('connect-flash');
 app.use(flash());
+
+/// Security
+
+var helmet = require('helmet');
+app.use(helmet());
+
+/// Env settings
 
 /// Database
 

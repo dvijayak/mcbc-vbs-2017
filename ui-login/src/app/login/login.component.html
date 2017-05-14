@@ -2,7 +2,6 @@
    <form (ngSubmit)="onSubmit()" #loginForm="ngForm"
       action="/login" method="post" >
       <div class="card-panel">
-         <!-- TODO: Put our nice green and black logo here -->
          <div class="logo-container">
          <img src="/assets/images/logo/MCBC_C_SVG_800x200px_recoloured.svg" class="responsive-img"/>
          </div>
@@ -35,6 +34,7 @@
             </mz-input-container>
          </div>
          <div class="row center-align">
+            <p class="red-text center-align" *ngIf="loginError">Invalid username/password</p>
             <button mz-button
                type="submit"
                [disabled]="!loginForm.form.valid"

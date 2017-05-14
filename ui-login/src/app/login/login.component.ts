@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   private readonly targetUrl: string = "/login";
   private readonly successUrl: string = "/admin";
 
+  loginError: boolean = false;
+
   onSubmit (): void {
      let headers = new Headers();
      headers.append('Content-Type', 'application/json');
@@ -30,10 +32,11 @@ export class LoginComponent implements OnInit {
      this.http.post(this.targetUrl, JSON.stringify(this.model), { headers: headers } )
         .map( (res: Response) => res.json() )
         .subscribe( res => {
-          console.log(res)
+          this.loginError = false;
           window.location.href = res.data.redirectUrl;
         }, err => {
-          console.log(err)
+          this.loginError = true;
+          console.error(err)
           window.location.href = err.data.redirectUrl;
         });
   }
