@@ -14,9 +14,15 @@ app.set('env', process.env.NODE_ENV || 'development');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment after placing your favicon in /public
-// var favicon = require('serve-favicon');
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+var favicon = require('serve-favicons');
+app.use(favicon({
+  '/favicon.ico': path.join(__dirname, 'favicon', 'favicon.ico'),
+  '/apple-touch-icon.png': path.join(__dirname, 'favicon', 'apple-touch-icon.png'),
+  '/favicon-32x32.png': path.join(__dirname, 'favicon', 'favicon-32x32.png'),
+  '/favicon-16x16.png': path.join(__dirname, 'favicon', 'favicon-16x16.png'),
+  '/manifest.json': path.join(__dirname, 'favicon', 'manifest.json'),
+  '/safari-pinned-tab.svg': path.join(__dirname, 'favicon', 'safari-pinned-tab.svg'),
+}));
 
 var logger = require('morgan');
 app.use(logger('dev'));
