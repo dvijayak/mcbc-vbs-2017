@@ -12,6 +12,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "express-session": "^1.15.2",
+    "helmet": "^3.6.0",
     "mongoose": "^4.9.7",
     "morgan": "~1.8.1",
     "nodemailer": "^4.0.1",

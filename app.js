@@ -43,7 +43,8 @@ app.use(session({
    , resave: false
    , saveUninitialized: false
    , cookie: {
-      secure: app.get('env') === 'production',
+      // secure is not working as planned...
+      //secure: app.get('env') === 'production',
       maxAge: 1 * 60 * 60 * 1000
    }
 }));
