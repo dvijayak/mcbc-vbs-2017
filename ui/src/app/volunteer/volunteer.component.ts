@@ -2,8 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
-import { MzModalService } from 'ng2-materialize';
-import { ModalComponent } from '../modal/modal.component';
+import { MzToastService } from 'ng2-materialize';
 
 import { CanadianProvince, CANADIANPROVINCES, AREASOFINTEREST, CustomValidators, FormInputPostProcessors } from '../helper';
 
@@ -18,7 +17,7 @@ export class VolunteerComponent implements OnInit, OnChanges {
   constructor(
     private formBuilder: FormBuilder,
     private submissionService: SubmissionService,
-    private modalService: MzModalService
+    private toastService: MzToastService
     ) {}
 
   volunteerForm: FormGroup;
@@ -69,6 +68,8 @@ export class VolunteerComponent implements OnInit, OnChanges {
 
   ngOnChanges() {}
 
+  submissionInProgress: boolean = false;
+
   onSubmit (): void {
     // Construct submission and send over to the server to be stored in the DB
     const formData = this.volunteerForm.value;
@@ -89,22 +90,25 @@ export class VolunteerComponent implements OnInit, OnChanges {
     submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
 
     // Submit away!
-    const modalOptions = {
-      title: `<span class="green-text">Success!</span>`,
-      message: `Thank you, <b>${submission["first_name"] + " " + submission["last_name"]}</b>. You have successfully signed up as a crew member for VBS 2017.`
+    const name = `${submission["first_name"]} ${submission["last_name"]}`;
+    const toastOptions = {
+      class: `green`,
+      message: `You, ${name}, have successfully signed up to be a crew member for VBS 2017!`
     }; // assume success by default
+    const toastDelay = 10;
     this.submissionService.putSubmission({query: "volunteer", data: submission})
                           .catch(err => {
                             console.error(`Failed to put submission into the server: ${err}`);
 
-                            modalOptions.title = `<span class="red-text">Failed :(</span>`;
-                            modalOptions.message = "We were unable to process your submission. Please try again later. Sorry for the inconvenience!";
+                            toastOptions.class = `red`;
+                            toastOptions.message = `Oops, we were unable to process your volunteer registration, ${name}. Please try again later!`;
                           })
-                          // finally, pop up the notification modal
+                          // finally, notify the user of the result
                           .then(() => {
-                            const modal = this.modalService.open(ModalComponent).instance as ModalComponent;
-                            modal.title = modalOptions.title;
-                            modal.message = modalOptions.message;
+                            this.toastService.show(toastOptions.message, toastDelay*1000, toastOptions.class);
+                            this.submissionInProgress = false;
+                            this.toastService.show(`All done! You will be automatically redirected to the homepage in ${toastDelay} seconds...`, toastDelay*1000, 'blue');
+                            setTimeout(() => window.location.href="/", toastDelay * 1000);
                           });
   };
 

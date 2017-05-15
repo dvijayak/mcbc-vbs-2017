@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { SubmissionService } from '../../../../ui-admin/src/app/admin/submission.service';
-import { MzModalService } from 'ng2-materialize';
-import { ModalComponent } from '../modal/modal.component';
+import { MzToastService } from 'ng2-materialize';
 
 import { CanadianProvince, CANADIANPROVINCES, CustomValidators, FormInputPostProcessors } from '../helper';
 
@@ -20,7 +19,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private submissionService: SubmissionService,
-    private modalService: MzModalService
+    private toastService: MzToastService,
     ) {}
 
   provinces: CanadianProvince[] = CANADIANPROVINCES;
@@ -85,8 +84,8 @@ export class RegisterComponent implements OnInit {
 
     // Create a new child form group
     const newChildGroup: FormGroup = this.formBuilder.group({
-            first_name: ['', Validators.required],
-            last_name: ['', Validators.required],
+            first_name: ['Daniel', Validators.required],
+            last_name: ['Vijayakumar', Validators.required],
             dob: ['', Validators.required],
             grade: ['', Validators.required],
             shirt_size: ['', Validators.required],
@@ -122,10 +121,16 @@ export class RegisterComponent implements OnInit {
     this.childrenArray.removeAt(index);
   }
 
+  submissionInProgress: boolean = false;
+
   onSubmit (): void {
+    this.submissionInProgress = true;
+
     // Construct submissions based on the number of children in the form model, then
     // send over to the server to be stored in the DB
     const formData = this.childForm.value;
+    const totalSubmissions = formData.children.length;
+    let i = 0;
     formData.children.forEach(child => {
       const submission = {};
 
@@ -153,32 +158,42 @@ export class RegisterComponent implements OnInit {
       submission["address"]["postal_code"] = FormInputPostProcessors.postal_code(submission["address"]["postal_code"]);
 
       // Submit away!
-      const modalOptions = {
-        title: `<span class="green-text">Success!</span>`,
-        message: `Thank you, <b>${submission["parent_first_name"] + " " + submission["parent_last_name"]}</b>. Your child${(formData.children.length > 1) ? 'ren have' : ' has'} been successfully registered for VBS 2017.`
+      const name = `${submission["first_name"]} ${submission["last_name"]}`;
+      const toastOptions = {
+        class: `green`,
+        message: `Your child ${name} has been successfully registered for VBS 2017!`
       }; // assume success by default
+      const toastDelay = 10;
       this.submissionService.putSubmission({query: "child", data: submission})
                             .then((data) => {
                               if (data.is_in_waiting_list && 
                                 (data.is_in_waiting_list.toString().toLowerCase() == "yes" ||
                                 data.is_in_waiting_list.toString().toLowerCase() == "true")
                                 ) {
-                                modalOptions.title = `<span class="orange-text">We're full...</span>`;
-                                modalOptions.message = `But do not despair - your child${(formData.children.length > 1) ? 'ren' : ''} will be registered on our waiting list. We will promptly contact you if more room is made available.`;
+                                toastOptions.class = `orange`;
+                                toastOptions.message = `We're full...but do not despair! Your child ${name} has been registered on our waiting list. We will promptly contact you if more room is made available.`;
                                 return Promise.resolve();
                               }
                             })
                             .catch(err => {
                               console.error(`Failed to put submission into the server: ${err}`);
 
-                              modalOptions.title = `<span class="red-text">Failed :(</span>`;
-                              modalOptions.message = "We were unable to process your submission. Please try again later. Sorry for the inconvenience!";
+                              toastOptions.class = `red`;
+                              toastOptions.message = `Oops, we were unable to process the registration of your child ${name}. Please try again later!`;
                             })
-                            // finally, pop up the notification modal
+                            // finally, notify the user of the result
                             .then(() => {
-                              const modal = this.modalService.open(ModalComponent).instance as ModalComponent;
-                              modal.title = modalOptions.title;
-                              modal.message = modalOptions.message;
+                              this.toastService.show(toastOptions.message, toastDelay*1000, toastOptions.class);
+
+                              i++;
+
+                              // Special handling for the very last submission
+                              if (i == totalSubmissions) {
+                                this.submissionInProgress = false;
+
+                                this.toastService.show(`All done! You will be automatically redirected to the homepage in ${toastDelay} seconds...`, toastDelay*1000, 'blue');
+                                setTimeout(() => window.location.href="/", toastDelay * 1000);
+                              }
                             });
     })
   };  
