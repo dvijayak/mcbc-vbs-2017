@@ -84,8 +84,8 @@ export class RegisterComponent implements OnInit {
 
     // Create a new child form group
     const newChildGroup: FormGroup = this.formBuilder.group({
-            first_name: ['Daniel', Validators.required],
-            last_name: ['Vijayakumar', Validators.required],
+            first_name: ['', Validators.required],
+            last_name: ['', Validators.required],
             dob: ['', Validators.required],
             grade: ['', Validators.required],
             shirt_size: ['', Validators.required],

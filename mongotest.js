@@ -26,7 +26,6 @@ db.once('open', function () {
 
    // Create the admin user
    const User = require('./models/user').model;
-   const crypto = require('crypto');
    const security = require(process.env.VBS2017_SECURITYCFG || "./security.config.dev");
    const admin = new User({
       username: 'admin',
