@@ -5,6 +5,7 @@ const C_GREEN = '\033[32m';
 const C_YELLOW = '\033[33m';
 const C_BLUE = '\033[36m';
 const C_RED = '\033[31m';
+const C_GREY = '\033[90m';
 
 const prependers = {
    method: function (verb) {
@@ -48,6 +49,10 @@ const prependers = {
          return C_RED;
 
       return C_RESET;
+   },
+
+   noise: function (str) {
+      return C_GREY;
    }
 }
 
@@ -63,9 +68,9 @@ module.exports = morgan(function (tokens, req, res) {
       prependColor(tokens.res(req, res, 'content-length') || '0', prependers.contentLength), '-',
       prependColor(tokens['response-time'](req, res), prependers.responseTime), 'ms',
       '-', prependColor(tokens.date(req, res, 'clf')),
-      prependColor(tokens['remote-addr'](req, res)), '-',
-      'HTTP/' + prependColor(tokens['http-version'](req, res)),
-      prependColor(tokens.referrer(req, res)),
-      prependColor(tokens['user-agent'](req, res)),
+      prependColor(tokens['remote-addr'](req, res), prependers.noise), '-',
+      'HTTP/' + prependColor(tokens['http-version'](req, res), prependers.noise),
+      prependColor(tokens.referrer(req, res), prependers.noise),
+      prependColor(tokens['user-agent'](req, res), prependers.noise),
    ].join(' ') + C_RESET;
 });
