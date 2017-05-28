@@ -24,8 +24,6 @@ app.use(favicon({
   '/safari-pinned-tab.svg': path.join(__dirname, 'favicon', 'safari-pinned-tab.svg'),
 }));
 
-// var logger = require('morgan');
-// app.use(logger('\033[36m:method :url :status :res[content-length] - :response-time ms\033[0m'));
 var logger = require('./logger');
 app.use(logger);
 
